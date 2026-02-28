@@ -1,0 +1,73 @@
+{
+  "id": "merchant_intro",
+  "nodes": {
+    "start": {
+      "speaker": "Händler",
+      "text": "Langer Weg. Habt Ihr etwas Warmes?",
+      "choices": [
+        {
+          "text": "Ale servieren",
+          "action": "open_service"
+        },
+        {
+          "text": "Was ist passiert?",
+          "next": "rumor"
+        },
+        {
+          "text": "(Stammgast) Etwas Brisantes?",
+          "next": "secret_rumor",
+          "required_trust": 10
+        },
+        {
+          "text": "Nicht jetzt.",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "speaker": "Händler",
+      "text": "Zu viele Patrouillen heute Nacht. Die Straße ist unsicher.",
+      "effects": [
+        {
+          "flag": "heard_patrol_rumor",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Ale servieren",
+          "action": "open_service"
+        },
+        {
+          "text": "Gespräch beenden",
+          "next": "end"
+        }
+      ]
+    },
+    "secret_rumor": {
+      "speaker": "Händler",
+      "text": "Da wir uns mittlerweile gut kennen: Ich habe gehört, der Herzog sucht Söldner. Sehr viel Gold, wenn man diskret ist.",
+      "effects": [
+        {
+          "flag": "mercenary_rumor",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Ale servieren",
+          "action": "open_service"
+        },
+        {
+          "text": "Interessant.",
+          "next": "end"
+        }
+      ]
+    },
+    "end": {
+      "speaker": "Händler",
+      "text": "Schon gut. Ich finde mich selbst zurecht.",
+      "choices": []
+    }
+  }
+}

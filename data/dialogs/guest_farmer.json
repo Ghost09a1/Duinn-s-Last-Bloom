@@ -1,0 +1,24 @@
+{
+    "id": "farmer_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Bauer",
+            "text": "Die Ernte war hart. Ein kühles Getränk wäre gut.",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Später.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Bauer",
+            "text": "Na gut.",
+            "choices": []
+        }
+    }
+}

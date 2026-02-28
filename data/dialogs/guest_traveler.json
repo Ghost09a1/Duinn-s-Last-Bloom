@@ -1,0 +1,48 @@
+{
+    "id": "traveler_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Reisender",
+            "text": "Ich bin seit zwei Tagen unterwegs. Ein Eintopf wäre ein Segen.",
+            "choices": [
+                {
+                    "text": "Eintopf servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Woher kommt Ihr?",
+                    "next": "origin"
+                },
+                {
+                    "text": "Gleich.",
+                    "next": "end"
+                }
+            ]
+        },
+        "origin": {
+            "speaker": "Reisender",
+            "text": "Aus dem Norden. Man sagt, dort brennt es. Ich glaube es.",
+            "effects": [
+                {
+                    "flag": "heard_north_burns",
+                    "value": true
+                }
+            ],
+            "choices": [
+                {
+                    "text": "Eintopf servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Bleib sicher.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Reisender",
+            "text": "Schon gut. Ich warte.",
+            "choices": []
+        }
+    }
+}

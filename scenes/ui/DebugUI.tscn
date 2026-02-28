@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://c6l6y2a3q8w4b"]
+
+[ext_resource type="Script" path="res://scripts/systems/debug_ui.gd" id="1_debug"]
+
+[node name="DebugUI" type="CanvasLayer"]
+script = ExtResource("1_debug")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_right = 350.0
+offset_bottom = 400.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ContentLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "DEBUG INFO"
+autowrap_mode = 3
+
+[node name="LogLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "EVENT LOG"
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12

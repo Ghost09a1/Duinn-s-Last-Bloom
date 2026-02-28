@@ -1,0 +1,28 @@
+{
+    "events": {
+        "none": {
+            "label": "Ruhiger Standard-Tag",
+            "type": "day_event",
+            "weight": 100,
+            "guest_modifier": 0,
+            "patience_bonus": 0,
+            "description": "Nichts Außergewöhnliches. Ein regulärer Abend."
+        },
+        "storm": {
+            "label": "Stürmische Nacht",
+            "type": "day_event",
+            "weight": 20,
+            "guest_modifier": -2,
+            "patience_bonus": 45.0,
+            "description": "Ein Unwetter tobt draußen. Weniger Gäste kommen, aber wer da ist, hat es nicht eilig zu gehen."
+        },
+        "market": {
+            "label": "Feiertags-Markt",
+            "type": "day_event",
+            "weight": 15,
+            "guest_modifier": 3,
+            "patience_bonus": -15.0,
+            "description": "Der Marktplatz war heute voll! Viele durstige Gäste, allerdings wartet niemand gern lang."
+        }
+    }
+}

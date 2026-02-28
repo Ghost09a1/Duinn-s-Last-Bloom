@@ -1,0 +1,381 @@
+{
+    "merchant_01": {
+        "display_name": "Händler",
+        "requested_item": "ale",
+        "requested_intent": [
+            "alcohol",
+            "warm"
+        ],
+        "size_pref": "big",
+        "wallet": 30,
+        "tip_pool": [
+            "silver_ring"
+        ],
+        "dialog_root_id": "guest_merchant",
+        "patience": 30.0,
+        "tags": [
+            "merchant"
+        ],
+        "flags_on_success": [
+            "served_merchant"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "alcohol",
+            "warm"
+        ],
+        "dislikes": [
+            "cheap"
+        ],
+        "quirk": "chatty",
+        "wants_room_chance": 0.4,
+        "room_budget_per_week": 120,
+        "stay_duration_days": [
+            2,
+            5
+        ]
+    },
+    "guard_01": {
+        "display_name": "Wächter",
+        "requested_item": "water",
+        "size_pref": "any",
+        "dialog_root_id": "guest_guard",
+        "patience": 25.0,
+        "tags": [
+            "guard"
+        ],
+        "flags_on_success": [
+            "served_guard"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "drink"
+        ],
+        "dislikes": [
+            "alcohol"
+        ],
+        "quirk": "strict",
+        "wants_room_chance": 0.05,
+        "room_budget_per_week": 50,
+        "stay_duration_days": [
+            1,
+            2
+        ]
+    },
+    "traveler_01": {
+        "display_name": "Reisender",
+        "requested_item": "stew",
+        "requested_intent": [
+            "food",
+            "warm"
+        ],
+        "size_pref": "big",
+        "wallet": 18,
+        "tip_pool": [
+            "herb_seed"
+        ],
+        "dialog_root_id": "guest_traveler",
+        "patience": 20.0,
+        "tags": [
+            "traveler"
+        ],
+        "flags_on_success": [
+            "served_traveler"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "food",
+            "warm"
+        ],
+        "dislikes": [
+            "cold"
+        ],
+        "quirk": "tired",
+        "wants_room_chance": 0.2,
+        "room_budget_per_week": 45,
+        "stay_duration_days": [
+            1,
+            3
+        ]
+    },
+    "healer_01": {
+        "display_name": "Heiler",
+        "requested_item": "tea",
+        "size_pref": "small",
+        "dialog_root_id": "guest_healer",
+        "patience": 35.0,
+        "tags": [
+            "healer",
+            "civilian"
+        ],
+        "flags_on_success": [
+            "served_healer"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "warm",
+            "drink"
+        ],
+        "dislikes": [
+            "alcohol",
+            "cheap"
+        ],
+        "quirk": "observant",
+        "wants_room_chance": 0.1,
+        "room_budget_per_week": 75,
+        "stay_duration_days": [
+            7,
+            21
+        ]
+    },
+    "bard_01": {
+        "display_name": "Barde",
+        "requested_item": "wine_cheap",
+        "size_pref": "big",
+        "dialog_root_id": "guest_bard",
+        "patience": 25.0,
+        "tags": [
+            "bard",
+            "outsider"
+        ],
+        "flags_on_success": [
+            "served_bard"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "alcohol",
+            "cheap"
+        ],
+        "dislikes": [
+            "water",
+            "food"
+        ],
+        "quirk": "chaotic",
+        "wants_room_chance": 0.5,
+        "room_budget_per_week": 20,
+        "stay_duration_days": [
+            1,
+            14
+        ]
+    },
+    "scholar_01": {
+        "display_name": "Gelehrter",
+        "requested_item": "tea",
+        "requested_intent": [
+            "drink",
+            "sweet"
+        ],
+        "size_pref": "small",
+        "wallet": 25,
+        "tip_pool": [
+            "scroll_scrap"
+        ],
+        "dialog_root_id": "guest_scholar",
+        "patience": 15.0,
+        "tags": [
+            "scholar",
+            "city"
+        ],
+        "flags_on_success": [
+            "served_scholar"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "warm"
+        ],
+        "dislikes": [
+            "alcohol",
+            "cheap",
+            "cold"
+        ],
+        "quirk": "picky",
+        "wants_room_chance": 0.3,
+        "room_budget_per_week": 150,
+        "stay_duration_days": [
+            14,
+            28
+        ]
+    },
+    "farmer_01": {
+        "display_name": "Bauer",
+        "requested_item": "bread",
+        "size_pref": "big",
+        "dialog_root_id": "guest_farmer",
+        "patience": 40.0,
+        "tags": [
+            "farmer",
+            "civilian"
+        ],
+        "flags_on_success": [
+            "served_farmer"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "food",
+            "cheap",
+            "warm"
+        ],
+        "dislikes": [
+            "fancy"
+        ],
+        "quirk": "simple",
+        "wants_room_chance": 0.05,
+        "room_budget_per_week": 25,
+        "stay_duration_days": [
+            1,
+            2
+        ]
+    },
+    "courier_01": {
+        "display_name": "Kurier",
+        "requested_item": "water",
+        "size_pref": "small",
+        "dialog_root_id": "guest_courier",
+        "patience": 10.0,
+        "tags": [
+            "courier",
+            "guild"
+        ],
+        "flags_on_success": [
+            "served_courier"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "drink",
+            "cold"
+        ],
+        "dislikes": [
+            "food",
+            "warm",
+            "alcohol"
+        ],
+        "quirk": "hasty",
+        "wants_room_chance": 0.15,
+        "room_budget_per_week": 25,
+        "stay_duration_days": [
+            1,
+            1
+        ]
+    },
+    "smuggler_01": {
+        "display_name": "Schmuggler",
+        "requested_item": "ale",
+        "size_pref": "big",
+        "dialog_root_id": "guest_smuggler",
+        "patience": 25.0,
+        "tags": [
+            "smuggler",
+            "outsider"
+        ],
+        "flags_on_success": [
+            "served_smuggler"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "alcohol"
+        ],
+        "dislikes": [
+            "water"
+        ],
+        "quirk": "secretive",
+        "wants_room_chance": 0.3,
+        "room_budget_per_week": 60,
+        "stay_duration_days": [
+            2,
+            7
+        ]
+    },
+    "noble_01": {
+        "display_name": "Reiche Dame",
+        "requested_item": "wine_fancy",
+        "size_pref": "small",
+        "dialog_root_id": "guest_noble",
+        "patience": 15.0,
+        "tags": [
+            "noble",
+            "city"
+        ],
+        "flags_on_success": [
+            "served_noble"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "alcohol",
+            "warm",
+            "fancy"
+        ],
+        "dislikes": [
+            "cheap",
+            "water",
+            "food"
+        ],
+        "quirk": "testy",
+        "wants_room_chance": 0.05,
+        "room_budget_per_week": 150,
+        "stay_duration_days": [
+            1,
+            3
+        ]
+    },
+    "mercenary_01": {
+        "display_name": "Söldner",
+        "requested_item": "stew",
+        "size_pref": "big",
+        "dialog_root_id": "guest_mercenary",
+        "patience": 20.0,
+        "tags": [
+            "mercenary",
+            "outsider"
+        ],
+        "flags_on_success": [
+            "served_mercenary"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "food",
+            "alcohol",
+            "warm"
+        ],
+        "dislikes": [
+            "water",
+            "tea"
+        ],
+        "quirk": "blunt",
+        "wants_room_chance": 0.25,
+        "room_budget_per_week": 40,
+        "stay_duration_days": [
+            3,
+            10
+        ]
+    },
+    "refugee_01": {
+        "display_name": "Flüchtling",
+        "requested_item": "soup",
+        "size_pref": "any",
+        "dialog_root_id": "guest_refugee",
+        "patience": 45.0,
+        "tags": [
+            "refugee",
+            "civilian"
+        ],
+        "flags_on_success": [
+            "served_refugee"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "warm",
+            "food",
+            "cheap"
+        ],
+        "dislikes": [
+            "alcohol"
+        ],
+        "quirk": "anxious",
+        "wants_room_chance": 0.6,
+        "room_budget_per_week": 10,
+        "stay_duration_days": [
+            7,
+            60
+        ]
+    }
+}

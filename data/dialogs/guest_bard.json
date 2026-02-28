@@ -1,0 +1,24 @@
+{
+    "id": "bard_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Barde",
+            "text": "Ein Lied für ein Getränk?",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Nicht jetzt.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Barde",
+            "text": "Wie Ihr wünscht.",
+            "choices": []
+        }
+    }
+}

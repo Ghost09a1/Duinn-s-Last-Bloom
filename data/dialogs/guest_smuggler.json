@@ -1,0 +1,24 @@
+{
+    "id": "smuggler_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Schmuggler",
+            "text": "Pst... ich brauche etwas unauffälliges zu trinken.",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Geh lieber.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Schmuggler",
+            "text": "Verstehe.",
+            "choices": []
+        }
+    }
+}

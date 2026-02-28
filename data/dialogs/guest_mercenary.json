@@ -1,0 +1,24 @@
+{
+    "id": "mercenary_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Söldner",
+            "text": "Ein harter Tag verdient ein starkes Getränk.",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Zieht ab.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Söldner",
+            "text": "Pah!",
+            "choices": []
+        }
+    }
+}

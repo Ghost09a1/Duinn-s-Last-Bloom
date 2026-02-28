@@ -1,0 +1,18 @@
+{
+    "id": "night_03",
+    "name": "Die dritte Schicht",
+    "sequence": [
+        "traveler_01",
+        {
+            "required_flag": "served_merchant",
+            "id": "merchant_01",
+            "fallback_id": "guard_01",
+            "overrides": {
+                "display_name": "Stammkunde (Händler)",
+                "patience": 40.0,
+                "mood": 1
+            }
+        },
+        "traveler_01"
+    ]
+}

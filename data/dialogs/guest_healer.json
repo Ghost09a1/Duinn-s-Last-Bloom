@@ -1,0 +1,24 @@
+{
+    "id": "healer_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Healer",
+            "text": "Ich habe Kräuter gesammelt. Ein warmes Mahl wäre jetzt fantastisch.",
+            "choices": [
+                {
+                    "text": "Essen servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Später.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Healer",
+            "text": "Ich habe Geduld.",
+            "choices": []
+        }
+    }
+}

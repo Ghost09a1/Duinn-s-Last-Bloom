@@ -1,0 +1,117 @@
+{
+    "items": {
+        "ale": {
+            "label": "Dunkles Ale",
+            "tags": [
+                "drink",
+                "alcohol",
+                "warm",
+                "bitter"
+            ]
+        },
+        "water": {
+            "label": "Wasser",
+            "tags": [
+                "drink",
+                "cold",
+                "cheap"
+            ]
+        },
+        "stew": {
+            "label": "Eintopf",
+            "tags": [
+                "food",
+                "warm",
+                "hearty"
+            ]
+        },
+        "bread": {
+            "label": "Brot",
+            "tags": [
+                "food",
+                "cheap",
+                "dry"
+            ]
+        },
+        "tea": {
+            "label": "Kräutertee",
+            "tags": [
+                "drink",
+                "warm",
+                "sweet",
+                "herbal"
+            ]
+        },
+        "soup": {
+            "label": "Suppe",
+            "tags": [
+                "food",
+                "warm",
+                "liquid",
+                "cheap"
+            ]
+        },
+        "wine_cheap": {
+            "label": "Billiger Wein",
+            "tags": [
+                "drink",
+                "alcohol",
+                "cheap",
+                "sweet"
+            ]
+        },
+        "wine_fancy": {
+            "label": "Edler Tropfen",
+            "tags": [
+                "drink",
+                "alcohol",
+                "fancy",
+                "sweet"
+            ]
+        },
+        "steak": {
+            "label": "Steak",
+            "tags": [
+                "food",
+                "warm",
+                "hearty",
+                "fancy"
+            ]
+        },
+        "sludge": {
+            "label": "Fragewürdiger Brei",
+            "tags": []
+        },
+        "nothing": {
+            "label": "Nichts",
+            "tags": []
+        },
+        "mint_seed": {
+            "label": "Minz-Samen",
+            "tags": [
+                "seed",
+                "plantable",
+                "mint"
+            ]
+        },
+        "mint_leaf": {
+            "label": "Frische Minze",
+            "tags": [
+                "ingredient",
+                "herb",
+                "fresh",
+                "mint"
+            ]
+        },
+        "mojito": {
+            "label": "Moonlight Mojito",
+            "tags": [
+                "drink",
+                "alcohol",
+                "cold",
+                "fresh",
+                "fancy"
+            ]
+        }
+    }
+}

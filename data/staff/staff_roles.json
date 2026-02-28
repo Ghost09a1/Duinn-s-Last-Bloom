@@ -1,0 +1,20 @@
+{
+    "bartender": {
+        "id": "bartender",
+        "name": "Barkeeper",
+        "daily_wage": 30,
+        "description": "Serviert Getränke automatisch nach 15 Sekunden Wartezeit (Ergebnis: Standard)."
+    },
+    "cleaner": {
+        "id": "cleaner",
+        "name": "Reinigungskraft",
+        "daily_wage": 20,
+        "description": "Zimmer sind bei Auszug sofort zu 100% sauber."
+    },
+    "bouncer": {
+        "id": "bouncer",
+        "name": "Türsteher",
+        "daily_wage": 40,
+        "description": "Gäste im Schankraum haben +20s mehr Geduld."
+    }
+}

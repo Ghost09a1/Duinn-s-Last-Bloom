@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://endnightui"]
+
+[ext_resource type="Script" path="res://scripts/systems/end_night_ui.gd" id="1_ui"]
+
+[node name="EndNightUI" type="CanvasLayer"]
+script = ExtResource("1_ui")
+layer = 20
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchor_left = 0.2
+anchor_right = 0.8
+anchor_top = 0.15
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "— Abend beendet —"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="Stats" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Gäste bedient: 0"
+
+[node name="Flags" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Entscheidungen: keine"
+
+[node name="Separator2" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="RestartBtn" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Nächste Nacht →"

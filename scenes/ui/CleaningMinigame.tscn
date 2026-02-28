@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://cleaningminigame"]
+
+[ext_resource type="Script" path="res://scripts/ui/cleaning_minigame.gd" id="1_cmscript"]
+
+[node name="CleaningMinigame" type="CanvasLayer"]
+script = ExtResource("1_cmscript")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.8)
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LblTitle" type="Label" parent="Panel"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "ZIMMER PUTZEN"
+horizontal_alignment = 1
+
+[node name="LblInfo" type="Label" parent="Panel"]
+layout_mode = 2
+size_flags_vertical = 0
+offset_top = 30.0
+text = "Entferne alle Flecken!"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel"]
+layout_mode = 2
+size_flags_vertical = 8
+max_value = 10.0
+
+[node name="StainsArea" type="Control" parent="Panel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnClose" type="Button" parent="Panel"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Abbrechen"

@@ -1,0 +1,26 @@
+{
+    "beatrice_01": {
+        "id": "beatrice_01",
+        "name": "Beatrice",
+        "spawn_rules": {
+            "min_day": 1,
+            "weight": 5
+        },
+        "traits": [
+            "noble",
+            "picky"
+        ]
+    },
+    "kael_01": {
+        "id": "kael_01",
+        "name": "Kael",
+        "spawn_rules": {
+            "min_day": 2,
+            "weight": 3
+        },
+        "traits": [
+            "mercenary",
+            "loud"
+        ]
+    }
+}

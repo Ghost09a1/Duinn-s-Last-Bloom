@@ -1,0 +1,24 @@
+{
+    "id": "noble_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Adliger",
+            "text": "Ist das Euer Bester Tisch? Nun denn, bringt mir Euer feinstes Getränk.",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Bitte warten.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Adliger",
+            "text": "Unverschämtheit.",
+            "choices": []
+        }
+    }
+}

@@ -76,11 +76,11 @@ Der Prototyp ist erfolgreich, wenn:
 Ziel: Arbeitsumgebung, Scope, Struktur festlegen
 
 ### Aufgaben
-- [ ] Projektordner anlegen
-- [ ] Godot-Projekt erstellen
-- [ ] Git-Repository anlegen
-- [ ] `.gitignore` einrichten
-- [ ] Prototyp-Ziel schriftlich festhalten (dieses Dokument)
+- [x] Projektordner anlegen
+- [x] Godot-Projekt erstellen
+- [x] Git-Repository anlegen
+- [x] `.gitignore` einrichten
+- [x] Prototyp-Ziel schriftlich festhalten (dieses Dokument)
 - [ ] Ticket-/Taskliste erstellen (Trello/Notion/Markdown reicht)
 
 ### Ergebnis

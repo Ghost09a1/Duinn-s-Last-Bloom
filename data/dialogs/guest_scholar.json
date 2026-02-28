@@ -1,0 +1,24 @@
+{
+    "id": "scholar_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Gelehrter",
+            "text": "Ich brauche etwas für den Geist... und den Magen.",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Später.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Gelehrter",
+            "text": "Hm.",
+            "choices": []
+        }
+    }
+}

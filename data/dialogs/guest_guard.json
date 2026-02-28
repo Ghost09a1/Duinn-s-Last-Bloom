@@ -1,0 +1,65 @@
+{
+    "id": "guard_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Wächter",
+            "text": "Ruhig hier. Einen Krug Wasser, wenn's gefällig ist.",
+            "choices": [
+                {
+                    "text": "Wasser servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Habt Ihr die Stadt kontrolliert?",
+                    "next": "patrol"
+                },
+                {
+                    "text": "[Vorfall] Der Händler sagte, es gibt Probleme auf der Straße?",
+                    "next": "rumor_response",
+                    "required_flags": [
+                        "heard_patrol_rumor"
+                    ]
+                },
+                {
+                    "text": "Nicht jetzt.",
+                    "next": "end"
+                }
+            ]
+        },
+        "patrol": {
+            "speaker": "Wächter",
+            "text": "Aye. Drei Runden. Alles ruhig. Heute jedenfalls.",
+            "effects": [
+                {
+                    "flag": "guard_confirmed_patrol",
+                    "value": true
+                }
+            ],
+            "choices": [
+                {
+                    "text": "Wasser servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Schön zu hören.",
+                    "next": "end"
+                }
+            ]
+        },
+        "rumor_response": {
+            "speaker": "Wächter",
+            "text": "Händler reden zu viel. Macht euch keine Sorgen, die Stadtwache hat alles im Griff. Es sei denn, ihr wisst etwas, das ich nicht weiß?",
+            "choices": [
+                {
+                    "text": "Nein, nichts. Ich bringe Euer Wasser.",
+                    "action": "open_service"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Wächter",
+            "text": "Schon gut. Ich bin sowieso gleich wieder draußen.",
+            "choices": []
+        }
+    }
+}

@@ -1,0 +1,62 @@
+{
+    "ingredients": {
+        "meat": {
+            "label": "Fleisch",
+            "type": "base"
+        },
+        "veg": {
+            "label": "Gemüse",
+            "type": "base"
+        },
+        "water": {
+            "label": "Wasser/Brühe",
+            "type": "liquid"
+        },
+        "dough": {
+            "label": "Teig",
+            "type": "base"
+        },
+        "herbs": {
+            "label": "Kräuter",
+            "type": "spice"
+        }
+    },
+    "recipes": {
+        "soup": {
+            "label": "Suppe",
+            "requires": [
+                "veg",
+                "water",
+                "herbs"
+            ],
+            "hint": "Gemüse + Wasser + Kräuter"
+        },
+        "stew": {
+            "label": "Eintopf",
+            "requires": [
+                "meat",
+                "veg",
+                "water"
+            ],
+            "hint": "Fleisch + Gemüse + Wasser"
+        },
+        "bread": {
+            "label": "Brot",
+            "requires": [
+                "dough",
+                "water",
+                "herbs"
+            ],
+            "hint": "Teig + Wasser + Kräuter"
+        },
+        "steak": {
+            "label": "Steak",
+            "requires": [
+                "meat",
+                "meat",
+                "herbs"
+            ],
+            "hint": "2x Fleisch + Kräuter"
+        }
+    }
+}

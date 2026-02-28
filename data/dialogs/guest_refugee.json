@@ -1,0 +1,24 @@
+{
+    "id": "refugee_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Flüchtling",
+            "text": "Bitte, habt Ihr etwas Wasser oder Brot?",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Nein.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Flüchtling",
+            "text": "...",
+            "choices": []
+        }
+    }
+}

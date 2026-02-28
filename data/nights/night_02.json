@@ -1,0 +1,18 @@
+{
+    "id": "night_02",
+    "name": "Die zweite Schicht",
+    "sequence": [
+        "traveler_01",
+        {
+            "required_flag": "guard_confirmed_patrol",
+            "id": "guard_01",
+            "fallback_id": "merchant_01",
+            "overrides": {
+                "display_name": "Gestresster Wächter",
+                "patience": 15.0
+            }
+        },
+        "guard_01",
+        "merchant_01"
+    ]
+}

@@ -1,0 +1,160 @@
+{
+    "ingredients": {
+        "adelhyde": {
+            "label": "Adelhyde",
+            "color": "#ff3366"
+        },
+        "bronson": {
+            "label": "Bronson Extract",
+            "color": "#ffaa00"
+        },
+        "delta": {
+            "label": "Powdered Delta",
+            "color": "#3366ff"
+        },
+        "flanergide": {
+            "label": "Flanergide",
+            "color": "#33cc33"
+        },
+        "karmotrine": {
+            "label": "Karmotrine",
+            "color": "#aaaaaa"
+        }
+    },
+    "recipes": {
+        "water": {
+            "label": "Wasser",
+            "units": {
+                "adelhyde": 0,
+                "bronson": 0,
+                "delta": 0,
+                "flanergide": 0,
+                "karmotrine": 0
+            },
+            "ice": true,
+            "aged": false,
+            "blended": false,
+            "hint": "Einfach Eis – alles auf 0 + Ice"
+        },
+        "tea": {
+            "label": "Kräutertee",
+            "units": {
+                "adelhyde": 2,
+                "bronson": 0,
+                "delta": 0,
+                "flanergide": 3,
+                "karmotrine": 0
+            },
+            "ice": false,
+            "aged": false,
+            "blended": false,
+            "hint": "2 Adelhyde + 3 Flanergide"
+        },
+        "ale": {
+            "label": "Dunkles Ale",
+            "units": {
+                "adelhyde": 0,
+                "bronson": 4,
+                "delta": 0,
+                "flanergide": 0,
+                "karmotrine": 2
+            },
+            "ice": false,
+            "aged": true,
+            "blended": false,
+            "hint": "4 Bronson + 2 Karmotrine + Aged"
+        },
+        "wine_cheap": {
+            "label": "Billiger Wein",
+            "units": {
+                "adelhyde": 3,
+                "bronson": 0,
+                "delta": 0,
+                "flanergide": 0,
+                "karmotrine": 3
+            },
+            "ice": false,
+            "aged": false,
+            "blended": false,
+            "hint": "3 Adelhyde + 3 Karmotrine"
+        },
+        "wine_fancy": {
+            "label": "Edler Tropfen",
+            "units": {
+                "adelhyde": 2,
+                "bronson": 2,
+                "delta": 0,
+                "flanergide": 0,
+                "karmotrine": 4
+            },
+            "ice": false,
+            "aged": true,
+            "blended": false,
+            "hint": "2 Adelhyde + 2 Bronson + 4 Karmotrine + Aged"
+        },
+        "berry_smash": {
+            "label": "Berry Smash",
+            "units": {
+                "adelhyde": 5,
+                "bronson": 0,
+                "delta": 4,
+                "flanergide": 3,
+                "karmotrine": 0
+            },
+            "ice": true,
+            "aged": false,
+            "blended": true,
+            "hint": "5 Adelhyde + 4 Delta + 3 Flanergide + Ice + BLENDED (≥3 Sek.)",
+            "tags": [
+                "sweet",
+                "cold",
+                "non_alcohol",
+                "fancy"
+            ]
+        },
+        "green_dream": {
+            "label": "Green Dream",
+            "units": {
+                "adelhyde": 2,
+                "bronson": 0,
+                "delta": 2,
+                "flanergide": 6,
+                "karmotrine": 0
+            },
+            "ice": false,
+            "aged": false,
+            "blended": true,
+            "hint": "2 Adelhyde + 2 Delta + 6 Flanergide + BLENDED (≥3 Sek.)",
+            "tags": [
+                "herbal",
+                "warm",
+                "non_alcohol",
+                "sweet"
+            ]
+        },
+        "mojito": {
+            "label": "Moonlight Mojito",
+            "units": {
+                "adelhyde": 2,
+                "bronson": 0,
+                "delta": 2,
+                "flanergide": 2,
+                "karmotrine": 4
+            },
+            "ice": true,
+            "aged": false,
+            "blended": true,
+            "required_items": [
+                "mint_leaf"
+            ],
+            "hint": "2 Adel + 2 Delta + 2 Flan + 4 Karmo + ICE + BLEND(>3s) + MINT LEAF",
+            "tags": [
+                "drink",
+                "alcohol",
+                "cold",
+                "fresh",
+                "fancy"
+            ]
+        }
+    }
+}

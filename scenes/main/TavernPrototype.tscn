@@ -1,0 +1,322 @@
+[gd_scene load_steps=46 format=3 uid="uid://tavernprototype"]
+
+[ext_resource type="PackedScene" uid="uid://playerscene" path="res://scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/systems/interaction_system.gd" id="2_interact"]
+[ext_resource type="PackedScene" uid="uid://guestscene" path="res://scenes/npc/Guest.tscn" id="3_guest"]
+[ext_resource type="Script" path="res://scripts/npc/guest_spawner.gd" id="4_spawner"]
+[ext_resource type="PackedScene" uid="uid://dialogui" path="res://scenes/ui/DialogUI.tscn" id="5_dialogui"]
+
+[ext_resource type="PackedScene" path="res://assets/dungeon/floor.glb" id="d_floor"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/floor-detail.glb" id="d_floor2"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/wall.glb" id="d_wall"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/wall-opening.glb" id="d_wall_open"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/column.glb" id="d_column"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/barrel.glb" id="d_barrel"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/chest.glb" id="d_chest"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/banner.glb" id="d_banner"]
+[ext_resource type="PackedScene" path="res://assets/dungeon/wood-structure.glb" id="d_wood"]
+
+[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/tableCross.glb" id="f_table"]
+[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/chair.glb" id="f_chair"]
+[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/benchCushion.glb" id="f_bench"]
+[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/stoolBar.glb" id="f_stool"]
+[ext_resource type="PackedScene" path="res://assets/tavern_props/food/cocktail.glb" id="f_cocktail"]
+[ext_resource type="PackedScene" path="res://assets/tavern_props/food/bowl-soup.glb" id="f_soup"]
+[ext_resource type="PackedScene" path="res://assets/tavern_props/food/mug.glb" id="f_mug"]
+
+[ext_resource type="Script" path="res://scripts/systems/interaction_system.gd" id="2b_interact"]
+[ext_resource type="PackedScene" uid="uid://b5s5x1z2y7v3e" path="res://scenes/core/IsoCamera.tscn" id="6_isocam"]
+[ext_resource type="Script" path="res://scripts/npc/staff_spawner.gd" id="7_staffspawn"]
+[ext_resource type="PackedScene" uid="uid://staffmember" path="res://scenes/npc/StaffMember.tscn" id="8_staffmem"]
+[ext_resource type="Script" path="res://scripts/systems/minigame_trigger.gd" id="10_mgtrigger"]
+[ext_resource type="PackedScene" uid="uid://cleaningminigame" path="res://scenes/ui/CleaningMinigame.tscn" id="11_cleanui"]
+[ext_resource type="PackedScene" uid="uid://birdstower" path="res://scenes/ui/BirdsTowerMinigame.tscn" id="12_towerui"]
+[ext_resource type="Script" path="res://scripts/systems/auto_dither.gd" id="99_autodither"]
+
+[sub_resource type="Environment" id="Env_tavern"]
+background_mode = 1
+background_color = Color(0.15, 0.12, 0.1, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.6, 0.5, 0.4, 1)
+ambient_light_energy = 0.7
+tonemap_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(12.0, 0.2, 12.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tresen"]
+size = Vector3(7.0, 1.0, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape_tresen"]
+size = Vector3(7.0, 1.0, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape_station"]
+size = Vector3(1.5, 0.8, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tresen"]
+albedo_color = Color(0.25, 0.15, 0.08, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.22, 0.20, 0.18, 1)
+roughness = 1.0
+metallic = 0.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.28, 0.25, 0.22, 1)
+roughness = 1.0
+metallic = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+size = Vector2(12.0, 12.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_N"]
+size = Vector3(12.0, 4.0, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_EW"]
+size = Vector3(0.4, 4.0, 12.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_N"]
+size = Vector3(12.0, 4.0, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_EW"]
+size = Vector3(0.4, 4.0, 12.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_staff"]
+albedo_color = Color(0.4, 0.6, 0.9, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_staff"]
+material = SubResource("Mat_staff")
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_tavern"]
+geometry_parsed_geometry_type = 2
+geometry_collision_mask = 1
+[node name="TavernPrototype" type="Node3D"]
+script = ExtResource("99_autodither")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.433, 0.25, 0, 0.5, 0.866, -0.5, -0.75, 0.433, 0, 8, 0)
+light_energy = 2.0
+light_color = Color(1.0, 0.9, 0.75, 1)
+shadow_enabled = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+navigation_mesh = SubResource("NavigationMesh_tavern")
+
+[node name="FloorCollider" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/FloorCollider"]
+shape = SubResource("BoxShape_floor")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_tavern")
+
+[node name="IsoCameraContainer" parent="." instance=ExtResource("6_isocam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D"]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="NavigationRegion3D/Floor"]
+mesh = SubResource("PlaneMesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="FloorCol" type="CollisionShape3D" parent="NavigationRegion3D/Floor"]
+shape = SubResource("BoxShape_floor")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="WallNorth" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallNorth"]
+mesh = SubResource("BoxMesh_wall_N")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallNorth"]
+shape = SubResource("BoxShape_wall_N")
+
+[node name="WallSouth" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallSouth"]
+mesh = SubResource("BoxMesh_wall_N")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallSouth"]
+shape = SubResource("BoxShape_wall_N")
+
+[node name="WallWest" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallWest"]
+mesh = SubResource("BoxMesh_wall_EW")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallWest"]
+shape = SubResource("BoxShape_wall_EW")
+
+[node name="WallEast" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallEast"]
+mesh = SubResource("BoxMesh_wall_EW")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallEast"]
+shape = SubResource("BoxShape_wall_EW")
+
+[node name="DecoRoot" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="Col_NW" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_column")]
+transform = Transform3D(1,0,0,0,1,0,0,0,1, -4,0,-4)
+[node name="Col_NE" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_column")]
+transform = Transform3D(1,0,0,0,1,0,0,0,1, 4,0,-4)
+
+[node name="Barrel_NW1" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_barrel")]
+transform = Transform3D(1,0,0,0,1,0,0,0,1, -4.2,0,-3.5)
+[node name="Barrel_NW2" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_barrel")]
+transform = Transform3D(0.8,0,0,0,0.8,0,0,0,0.8, -3.5,0,-3.2)
+[node name="Barrel_NE1" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_barrel")]
+transform = Transform3D(1,0,0,0,1,0,0,0,1, 4.2,0,-3.5)
+
+[node name="Banner_W" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_banner")]
+transform = Transform3D(0,0,1,0,1,0,-1,0,0, -4.8,2,-1)
+[node name="Banner_E" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_banner")]
+transform = Transform3D(0,0,-1,0,1,0,1,0,0, 4.8,2,-1)
+
+[node name="Chest_SE" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_chest")]
+transform = Transform3D(1,0,0,0,1,0,0,0,1, 3.5,0,4)
+[node name="Wood_N" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_wood")]
+transform = Transform3D(1,0,0,0,1,0,0,0,1, -3,0,-4.5)
+
+[node name="FurnRoot" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="TresenBase" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -3.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TresenBase"]
+shape = SubResource("BoxShape_tresen")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/TresenBase"]
+mesh = SubResource("BoxMesh_tresen")
+surface_material_override/0 = SubResource("Mat_tresen")
+
+[node name="Deco_Barrel_L" parent="NavigationRegion3D/TresenBase" instance=ExtResource("d_barrel")]
+transform = Transform3D(0.8,0,0,0,0.8,0,0,0,0.8, -3.2, 0.6, 0)
+[node name="Deco_Barrel_R" parent="NavigationRegion3D/TresenBase" instance=ExtResource("d_barrel")]
+transform = Transform3D(0.8,0,0,0,0.8,0,0,0,0.8, 3.2, 0.6, 0)
+[node name="Deco_Mug" parent="NavigationRegion3D/TresenBase" instance=ExtResource("f_mug")]
+transform = Transform3D(0.6,0,0,0,0.6,0,0,0,0.6, -1, 0.55, 0)
+[node name="Deco_Cocktail" parent="NavigationRegion3D/TresenBase" instance=ExtResource("f_cocktail")]
+transform = Transform3D(0.6,0,0,0,0.6,0,0,0,0.6, 0.5, 0.55, 0)
+[node name="Deco_Soup" parent="NavigationRegion3D/TresenBase" instance=ExtResource("f_soup")]
+transform = Transform3D(0.6,0,0,0,0.6,0,0,0,0.6, 1.8, 0.55, 0)
+
+[node name="StationDrinks" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.1, -3.5)
+script = ExtResource("2_interact")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StationDrinks"]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/StationDrinks"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Drinks mixen]"
+font_size = 32
+
+[node name="StationFood" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.1, -3.5)
+script = ExtResource("2_interact")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StationFood"]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/StationFood"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Essen kochen]"
+font_size = 32
+
+[node name="ServiceBell" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -3.5)
+script = ExtResource("2_interact")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/ServiceBell"]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/ServiceBell"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Klingeln & Servieren]"
+font_size = 32
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
+
+[node name="SpawnPoint1" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="SpawnPoint2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="SpawnPoint3" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="GuestSpawner" type="Node3D" parent="."]
+script = ExtResource("4_spawner")
+guest_scene = ExtResource("3_guest")
+
+[node name="DialogUI" parent="." instance=ExtResource("5_dialogui")]
+
+[node name="Bartender_Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.0, -4.5)
+visible = false
+mesh = SubResource("CapsuleMesh_staff")
+
+[node name="Cleaner_Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.0, 4.5)
+visible = false
+mesh = SubResource("CapsuleMesh_staff")
+
+[node name="Bouncer_Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.0, 4.5)
+visible = false
+mesh = SubResource("CapsuleMesh_staff")
+
+[node name="StaffSpawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+script = ExtResource("7_staffspawn")
+staff_scene = ExtResource("8_staffmem")
+
+[node name="BroomStation" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1, 5)
+script = ExtResource("10_mgtrigger")
+minigame_scene = ExtResource("11_cleanui")
+prompt_text = "[Zimmer Putzen]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/BroomStation"]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/BroomStation"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Zimmer putzen]"
+font_size = 32
+
+[node name="TowerWindow" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1, -5)
+script = ExtResource("10_mgtrigger")
+minigame_scene = ExtResource("12_towerui")
+prompt_text = "[Bird's Tower]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TowerWindow"]
+shape = SubResource("BoxShape_station")
+
+[node name="StaffWaypoints" type="Node3D" parent="."]
+
+[node name="Waypoint1" type="Marker3D" parent="StaffWaypoints" groups=["staff_waypoints"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="Waypoint2" type="Marker3D" parent="StaffWaypoints" groups=["staff_waypoints"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="Waypoint3" type="Marker3D" parent="StaffWaypoints" groups=["staff_waypoints"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)

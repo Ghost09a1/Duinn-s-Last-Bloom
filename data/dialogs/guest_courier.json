@@ -1,0 +1,24 @@
+{
+    "id": "courier_intro",
+    "nodes": {
+        "start": {
+            "speaker": "Kurier",
+            "text": "Ich habe Neuigkeiten von fern! Und durst...",
+            "choices": [
+                {
+                    "text": "Etwas servieren",
+                    "action": "open_service"
+                },
+                {
+                    "text": "Keine Zeit.",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "speaker": "Kurier",
+            "text": "Gut, ich muss ohnehin weiter.",
+            "choices": []
+        }
+    }
+}
