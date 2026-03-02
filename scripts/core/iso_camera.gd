@@ -6,6 +6,11 @@ extends Node3D
 @export var max_zoom : float = 30.0
 @export var rotation_speed : float = 5.0
 
+@export var fade_speed : float = 5.0
+@export var min_alpha : float = 0.2
+
+var _faded_meshes : Dictionary = {} # mesh_rid -> { "node": Node3D, "target_alpha": 1.0, "current_alpha": 1.0, "original_materials": Array }
+
 @onready var cam : Camera3D = $Camera3D
 
 var player : CharacterBody3D
@@ -56,12 +61,10 @@ func _process(delta: float) -> void:
 		move_dir = (cam_basis.x * input_dir.x) + (cam_basis.z * input_dir.y)
 		global_position += move_dir * move_speed * delta
 
-	_update_xray()
+	_update_cutaway(delta)
 
-func _update_xray() -> void:
+func _update_cutaway(delta: float) -> void:
 	if player == null or cam == null: return
-	var xray_mgr = get_node_or_null("/root/TavernPrototype")
-	if not xray_mgr or not xray_mgr.has_method("set_target_alphas"): return
 	
 	var space_state = get_world_3d().direct_space_state
 	var from = cam.global_position
@@ -69,6 +72,7 @@ func _update_xray() -> void:
 	var to = player.global_position + Vector3(0, 1.0, 0) 
 	
 	var query = PhysicsRayQueryParameters3D.create(from, to)
+	
 	var exceptions = []
 	var hits = []
 	
@@ -78,12 +82,92 @@ func _update_xray() -> void:
 		if result:
 			if result.collider == player:
 				break
-			hits.append(result.collider)
+				
+			if result.collider.is_in_group("cutaway_wall"):
+				hits.append(result.collider)
+				
 			exceptions.append(result.rid)
 		else:
 			break
 			
-	xray_mgr.set_target_alphas(hits)
+	# Update target alphas
+	for mesh_rid in _faded_meshes.keys():
+		_faded_meshes[mesh_rid]["target_alpha"] = 1.0 # default back to visible
+		
+	for collider in hits:
+		var rid = collider.get_instance_id()
+		if not _faded_meshes.has(rid):
+			_setup_mesh_for_fading(collider, rid)
+		_faded_meshes[rid]["target_alpha"] = min_alpha
+		
+	# Process fading
+	var to_erase = []
+	for rid in _faded_meshes.keys():
+		var data = _faded_meshes[rid]
+		if not is_instance_valid(data["node"]):
+			to_erase.append(rid)
+			continue
+			
+		data["current_alpha"] = move_toward(data["current_alpha"], data["target_alpha"], fade_speed * delta)
+		
+		# Apply alpha to all materials
+		_apply_alpha_to_mesh(data["node"], data["current_alpha"], data["secondary_mats"])
+		
+		if data["current_alpha"] >= 0.99 and data["target_alpha"] >= 0.99:
+			_restore_mesh_materials(data["node"], data["original_mats"])
+			to_erase.append(rid)
+			
+	for rid in to_erase:
+		_faded_meshes.erase(rid)
+
+func _setup_mesh_for_fading(collider: Node3D, rid: int) -> void:
+	var meshes = _get_all_meshes(collider)
+	var originals = []
+	var secondary = []
+	
+	for mesh_inst in meshes:
+		for i in range(mesh_inst.get_surface_override_material_count()):
+			var orig = mesh_inst.get_surface_override_material(i)
+			originals.append({"mesh": mesh_inst, "index": i, "mat": orig})
+			
+			if orig == null and mesh_inst.mesh != null:
+				orig = mesh_inst.mesh.surface_get_material(i)
+				
+			var fade_mat = null
+			if orig is StandardMaterial3D:
+				fade_mat = orig.duplicate()
+				fade_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			
+			secondary.append({"mesh": mesh_inst, "index": i, "mat": fade_mat})
+			
+			if fade_mat != null:
+				mesh_inst.set_surface_override_material(i, fade_mat)
+				
+	_faded_meshes[rid] = {
+		"node": collider,
+		"target_alpha": 1.0,
+		"current_alpha": 1.0,
+		"original_mats": originals,
+		"secondary_mats": secondary
+	}
+
+func _apply_alpha_to_mesh(_node: Node3D, alpha: float, secondary_mats: Array) -> void:
+	for slot in secondary_mats:
+		if slot["mat"] != null and is_instance_valid(slot["mesh"]):
+			slot["mat"].albedo_color.a = alpha
+
+func _restore_mesh_materials(_node: Node3D, original_mats: Array) -> void:
+	for slot in original_mats:
+		if is_instance_valid(slot["mesh"]):
+			slot["mesh"].set_surface_override_material(slot["index"], slot["mat"])
+
+func _get_all_meshes(node: Node) -> Array[MeshInstance3D]:
+	var result : Array[MeshInstance3D] = []
+	if node is MeshInstance3D:
+		result.append(node)
+	for child in node.get_children():
+		result.append_array(_get_all_meshes(child))
+	return result
 
 func _unhandled_input(event: InputEvent) -> void:
 	if cam == null: return

@@ -1,0 +1,15 @@
+{
+    "quests": {
+        "beatrice_trial": {
+            "id": "beatrice_trial",
+            "label": "Beatrice's Spezial-Wunsch",
+            "description": "Serviere Beatrice ein 'Berry Smash' in perfekter Qualität.",
+            "type": "serve_item_perfect",
+            "target_item": "berry_smash",
+            "target_guest": "beatrice_01",
+            "reward_reputation": 25,
+            "reward_money": 50,
+            "completion_flag": "quest_beatrice_trial_done"
+        }
+    }
+}

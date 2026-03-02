@@ -265,7 +265,8 @@
         "patience": 25.0,
         "tags": [
             "smuggler",
-            "outsider"
+            "outsider",
+            "troublemaker"
         ],
         "flags_on_success": [
             "served_smuggler"
@@ -325,7 +326,8 @@
         "patience": 20.0,
         "tags": [
             "mercenary",
-            "outsider"
+            "outsider",
+            "troublemaker"
         ],
         "flags_on_success": [
             "served_mercenary"
@@ -376,6 +378,38 @@
         "stay_duration_days": [
             7,
             60
+        ]
+    },
+    "beatrice_01": {
+        "display_name": "Beatrice",
+        "requested_item": "berry_smash",
+        "size_pref": "any",
+        "dialog_root_id": "beatrice_01",
+        "patience": 60.0,
+        "tags": [
+            "vip",
+            "noble",
+            "scholar"
+        ],
+        "flags_on_success": [
+            "served_beatrice"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "sweet",
+            "fruit",
+            "fancy"
+        ],
+        "dislikes": [
+            "cheap",
+            "stale"
+        ],
+        "quirk": "legendary",
+        "wants_room_chance": 0.0,
+        "room_budget_per_week": 300,
+        "stay_duration_days": [
+            1,
+            2
         ]
     }
 }

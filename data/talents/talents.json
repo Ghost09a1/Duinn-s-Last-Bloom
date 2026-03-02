@@ -1,0 +1,25 @@
+{
+    "talents": {
+        "swift_feet": {
+            "id": "swift_feet",
+            "label": "Flinke Füße",
+            "description": "Erhöht die Laufgeschwindigkeit um 20%.",
+            "cost": 1,
+            "category": "physical"
+        },
+        "master_mixer": {
+            "id": "master_mixer",
+            "label": "Meister-Mixer",
+            "description": "Gäste haben 15% mehr Geduld mit deinen Getränken.",
+            "cost": 1,
+            "category": "service"
+        },
+        "hard_bargainer": {
+            "id": "hard_bargainer",
+            "label": "Harter Verhandler",
+            "description": "Erhöht das Basis-Trinkgeld um 10%.",
+            "cost": 2,
+            "category": "service"
+        }
+    }
+}

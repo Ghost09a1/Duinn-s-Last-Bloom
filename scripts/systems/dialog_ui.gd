@@ -49,7 +49,7 @@ func show_node(speaker: String, text: String, choices: Array) -> void:
 
 func hide_dialog() -> void:
 	panel.visible = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	for child in choices_box.get_children():
 		child.queue_free()
 

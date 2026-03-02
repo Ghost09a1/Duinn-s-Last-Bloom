@@ -1,0 +1,110 @@
+[gd_scene load_steps=2 format=3 uid="uid://df72834b"]
+
+[ext_resource type="Script" path="res://scripts/ui/room_assignment_ui.gd" id="1_root"]
+
+[node name="RoomAssignmentUI" type="CanvasLayer"]
+script = ExtResource("1_root")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.9)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="CenterContainer/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Zimmervergabe"
+horizontal_alignment = 1
+
+[node name="InfoLbl" type="Label" parent="CenterContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Wähle einen Gast und ein freies Zimmer."
+horizontal_alignment = 1
+modulate = Color(0.8, 0.8, 0.8, 1)
+
+[node name="HBox" type="HBoxContainer" parent="CenterContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="ApplicantsPanel" type="PanelContainer" parent="CenterContainer/VBox/HBox"]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/VBox/HBox/ApplicantsPanel"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="CenterContainer/VBox/HBox/ApplicantsPanel/VBox"]
+layout_mode = 2
+text = "Bewerber der Nacht"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBox/HBox/ApplicantsPanel/VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="CenterContainer/VBox/HBox/ApplicantsPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ApplicantsContainer" type="VBoxContainer" parent="CenterContainer/VBox/HBox/ApplicantsPanel/VBox/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RoomsPanel" type="PanelContainer" parent="CenterContainer/VBox/HBox"]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/VBox/HBox/RoomsPanel"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="CenterContainer/VBox/HBox/RoomsPanel/VBox"]
+layout_mode = 2
+text = "Verfügbare Zimmer"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBox/HBox/RoomsPanel/VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="CenterContainer/VBox/HBox/RoomsPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RoomsContainer" type="VBoxContainer" parent="CenterContainer/VBox/HBox/RoomsPanel/VBox/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ActionHBox" type="HBoxContainer" parent="CenterContainer/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="AssignBtn" type="Button" parent="CenterContainer/VBox/ActionHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " Zuweisen "
+
+[node name="RejectBtn" type="Button" parent="CenterContainer/VBox/ActionHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " Ablehnen "
+
+[node name="Margin" type="Control" parent="CenterContainer/VBox/ActionHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="ContinueBtn" type="Button" parent="CenterContainer/VBox/ActionHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " Tagesbericht ansehen "

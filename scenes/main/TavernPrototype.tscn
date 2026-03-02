@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://guestscene" path="res://scenes/npc/Guest.tscn" id="3_guest"]
 [ext_resource type="Script" path="res://scripts/npc/guest_spawner.gd" id="4_spawner"]
 [ext_resource type="PackedScene" uid="uid://dialogui" path="res://scenes/ui/DialogUI.tscn" id="5_dialogui"]
+[ext_resource type="PackedScene" uid="uid://inventoryui" path="res://scenes/ui/InventoryUI.tscn" id="5_invui"]
 
 [ext_resource type="PackedScene" path="res://assets/dungeon/floor.glb" id="d_floor"]
 [ext_resource type="PackedScene" path="res://assets/dungeon/floor-detail.glb" id="d_floor2"]
@@ -267,6 +268,8 @@ guest_scene = ExtResource("3_guest")
 
 [node name="DialogUI" parent="." instance=ExtResource("5_dialogui")]
 
+[node name="InventoryUI" parent="." instance=ExtResource("5_invui")]
+
 [node name="Bartender_Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.0, -4.5)
 visible = false
@@ -309,6 +312,34 @@ prompt_text = "[Bird's Tower]"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TowerWindow"]
 shape = SubResource("BoxShape_station")
+
+[node name="GardenDoor" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -5.5)
+script = ExtResource("2_interact")
+station_id = "garden_door"
+prompt_text = "[Garten betreten]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/GardenDoor"]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/GardenDoor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.4)
+text = "[Garten betreten]"
+font_size = 32
+
+[node name="FrontDoor" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5.5)
+script = ExtResource("2_interact")
+station_id = "front_door"
+prompt_text = "[Tür verwalten]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/FrontDoor"]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/FrontDoor"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Tür verwalten]"
+font_size = 32
 
 [node name="StaffWaypoints" type="Node3D" parent="."]
 

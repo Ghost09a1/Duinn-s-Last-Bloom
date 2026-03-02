@@ -1,0 +1,45 @@
+{
+  "id": "test_station",
+  "nodes": {
+    "start": {
+      "speaker": "Rabe Matthias",
+      "text": "Krah! Willkommen an der Dialog-Teststation. Funktioniert das Auswahlmenü?",
+      "choices": [
+        {
+          "text": "Ja, sieht gut aus.",
+          "next": "good"
+        },
+        {
+          "text": "Nein, irgendwas stimmt hier nicht.",
+          "next": "bad"
+        }
+      ]
+    },
+    "good": {
+      "speaker": "Rabe Matthias",
+      "text": "Ausgezeichnet! Dann setz mal ein Test-Flag, um das System zu prüfen.",
+      "choices": [
+        {
+          "text": "Test-Flag setzen und beenden.",
+          "next": "end",
+          "action": "",
+          "effects": [{"flag": "test_station_visited", "value": true}]
+        },
+        {
+          "text": "Anderes mal.",
+          "next": "end"
+        }
+      ]
+    },
+    "bad": {
+      "speaker": "Rabe Matthias",
+      "text": "Tja, dann musst du wohl nochmal an den Code ran. Krahkrah!",
+      "choices": [
+        {
+          "text": "Zurücklehnen.",
+          "next": "end"
+        }
+      ]
+    }
+  }
+}

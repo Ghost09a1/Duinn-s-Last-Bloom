@@ -7,8 +7,8 @@ extends Node
 var current_plan : Dictionary = {}
 
 func generate_day(global_seed: int, day_index: int) -> Dictionary:
-	var rng = RandomNumberGenerator.new()
-	rng.seed = global_seed + day_index
+	GameRNG.init_night(global_seed, day_index)
+	var rng = GameRNG.rng_for("day_generator")
 	
 	# 1. Event auswürfeln
 	var event_id = _roll_event(rng)
@@ -28,16 +28,22 @@ func generate_day(global_seed: int, day_index: int) -> Dictionary:
 	# (Da der GuestSpawner die Archetypen lädt, greifen wir der Einfachheit halber auf seine DB zu, 
 	# oder wir laden sie hier neu. Für diesen Prototyp füllen wir die Queue mit IDs).
 	
-	var guest_sequence : Array[String] = []
+	var guest_sequence : Array[Dictionary] = []
 	var available_archetypes = _get_weighted_archetypes()
 	
 	if available_archetypes.size() > 0:
 		for i in range(final_guest_count):
 			var selected_id = _roll_guest(rng, available_archetypes)
-			guest_sequence.append(selected_id)
+			
+			var entry = {
+				"id": selected_id,
+				"instance_seed": GameRNG.rng_for("guest_%d_%d" % [day_index, i]).seed,
+				"room_roll": GameRNG.rng_for("room_roll_%d_%d" % [day_index, i]).randf()
+			}
+			guest_sequence.append(entry)
 	
 	current_plan = {
-		"seed": rng.seed,
+		"seed": GameRNG.night_seed,
 		"day_index": day_index,
 		"event_id": event_id,
 		"event_data": event_data, # Kopie für direkten Zugriff
@@ -45,7 +51,7 @@ func generate_day(global_seed: int, day_index: int) -> Dictionary:
 		"guest_sequence": guest_sequence
 	}
 	
-	print("[DayGenerator] Plante Tag %d (Seed %d). Event: %s, Gäste: %d" % [day_index, rng.seed, event_id, final_guest_count])
+	print("[DayGenerator] Plante Tag %d (Seed %d). Event: %s, Gäste: %d" % [day_index, GameRNG.night_seed, event_id, final_guest_count])
 	return current_plan
 
 

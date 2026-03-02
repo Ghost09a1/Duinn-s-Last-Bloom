@@ -58,11 +58,14 @@ func _load_night_data() -> void:
 	
 	var sequence = plan.get("guest_sequence", [])
 	
-	for guest_id in sequence:
+	for guest_entry in sequence:
+		var guest_id = guest_entry["id"]
 		# Gast aus DB laden und an Queue anhängen
 		if guest_id in guest_db:
 			var g_data = guest_db[guest_id].duplicate()
 			g_data["id"] = guest_id # ID anhängen
+			g_data["instance_seed"] = guest_entry["instance_seed"]
+			g_data["room_roll"] = guest_entry["room_roll"]
 			
 			# Wende Event-Modifikatoren an (Patience/Mood)
 			if ev_data:
@@ -97,6 +100,18 @@ func _spawn_guest_at(slot: Marker3D) -> void:
 	var data   : Dictionary = _queue.pop_front()
 	var pos    : Vector3 = slot.global_position
 
+	var guest_id = data.get("id", "generic_guest")
+	if not SecuritySystem.evaluate_guest_entry(guest_id, data):
+		# Gast abgewiesen! Nächster Versuch in 1.5s
+		print("[Spawner] Gast %s wurde abgewiesen, Spawner überspringt ihn." % data.get("display_name", "?"))
+		_active_guests[slot] = null
+		await get_tree().create_timer(1.5).timeout
+		if not _queue.is_empty():
+			_spawn_guest_at(slot)
+		else:
+			_check_night_end()
+		return
+
 	var guest : Node3D = guest_scene.instantiate()
 	# Position VOR add_child setzen – Physics Bodies brauchen das
 	guest.position = pos
@@ -126,9 +141,10 @@ func _spawn_guest_at(slot: Marker3D) -> void:
 	var free_rooms = GameManager.get_free_room_count()
 	if free_rooms > 0:
 		var chance : float = data.get("wants_room_chance", 0.0)
-		if randf() <= chance:
+		var pre_roll : float = data.get("room_roll", 1.0)
+		if pre_roll <= chance:
 			data["wants_room"] = true
-			print("[Spawner] Gast %s will ein Zimmer (Chance: %.2f)." % [data.get("display_name", "?"), chance])
+			print("[Spawner] Gast %s will ein Zimmer (Chance: %.2f). pre-roll: %.2f" % [data.get("display_name", "?"), chance, pre_roll])
 	
 	guest.setup(data)
 	

@@ -25,7 +25,11 @@ func _on_night_complete(summary: Dictionary) -> void:
 	if not GameManager.room_applicants.is_empty() and GameManager.get_free_room_count() > 0:
 		var room_ui = load("res://scenes/ui/RoomAssignmentUI.tscn").instantiate()
 		get_tree().root.add_child(room_ui)
-		room_ui.assignment_finished.connect(show_summary.bind(summary))
+		room_ui.assignment_finished.connect(func():
+			# Falls noch Bewerber übrig waren, die aber nicht zugewiesen wurden
+			GameManager.room_applicants.clear()
+			show_summary(summary)
+		)
 		room_ui.start()
 	else:
 		# Falls keine Bewerber da sind, leeren wir die Queue trotzdem (sonst stauen sie sich in der DB)
@@ -126,15 +130,8 @@ func _on_continue_to_shop() -> void:
 	
 	# 2. UI verstecken
 	panel.visible = false
-	
-	# 3. Bewerber & Zimmer prüfen
-	if not GameManager.room_applicants.is_empty() and GameManager.get_free_room_count() > 0:
-		var room_ui = load("res://scenes/ui/AssignRoomUI.tscn").instantiate()
-		get_tree().root.add_child(room_ui)
-		room_ui.open()
-		return
 		
-	# 4. Shop laden und anzeigen
+	# 3. Shop laden und anzeigen
 	if not _meta_shop:
 		var shop_script = load("res://scripts/ui/meta_shop_ui.gd")
 		if shop_script:

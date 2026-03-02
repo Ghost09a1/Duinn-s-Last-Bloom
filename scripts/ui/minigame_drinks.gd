@@ -204,4 +204,4 @@ func _on_reset():
 
 func _on_cancel():
 	hide()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

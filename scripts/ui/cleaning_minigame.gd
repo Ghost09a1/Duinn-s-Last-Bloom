@@ -53,8 +53,9 @@ func _on_stain_clicked(node_to_free: Node) -> void:
 	if _cleaned_stains >= _total_stains:
 		lbl_info.text = "Raum ist blitzblank!"
 		
-		# Belohnung (Reputation oder Sauberkeitswert)
-		GameManager.add_reputation(5)
+		# Session 13: Sauberkeit wiederherstellen
+		GameManager.add_cleanliness(100) # Vollständig reinigen
+		GameManager.add_reputation(2)   # Kleiner Bonus
 		
 		# Kurze Verzögerung vorm Schließen
 		await get_tree().create_timer(1.0).timeout
@@ -65,5 +66,5 @@ func _on_close() -> void:
 
 func _finish(success: bool) -> void:
 	hide()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	cleaning_finished.emit(success)

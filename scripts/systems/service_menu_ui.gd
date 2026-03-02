@@ -86,4 +86,4 @@ func _on_service_completed(_result: Dictionary) -> void:
 		wanted_lbl.modulate = Color(0.7, 0.9, 1.0)
 	else:
 		panel.visible = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

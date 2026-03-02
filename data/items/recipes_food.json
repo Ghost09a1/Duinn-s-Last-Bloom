@@ -24,39 +24,54 @@
     "recipes": {
         "soup": {
             "label": "Suppe",
+            "method": "boil",
             "requires": [
                 "veg",
                 "water",
                 "herbs"
             ],
-            "hint": "Gemüse + Wasser + Kräuter"
+            "hint": "Gemüse + Wasser + Kräuter | Methode: Kochen"
         },
         "stew": {
             "label": "Eintopf",
+            "method": "boil",
             "requires": [
                 "meat",
                 "veg",
                 "water"
             ],
-            "hint": "Fleisch + Gemüse + Wasser"
+            "hint": "Fleisch + Gemüse + Wasser | Methode: Kochen"
         },
         "bread": {
             "label": "Brot",
+            "method": "bake",
             "requires": [
                 "dough",
                 "water",
                 "herbs"
             ],
-            "hint": "Teig + Wasser + Kräuter"
+            "hint": "Teig + Wasser + Kräuter | Methode: Backen"
         },
         "steak": {
             "label": "Steak",
+            "method": "fry",
             "requires": [
                 "meat",
                 "meat",
                 "herbs"
             ],
-            "hint": "2x Fleisch + Kräuter"
+            "hint": "2x Fleisch + Kräuter | Methode: Braten"
+        },
+        "curry": {
+            "label": "Exotisches Curry",
+            "method": "boil",
+            "requires": [
+                "meat",
+                "veg",
+                "herbs",
+                "herbs"
+            ],
+            "hint": "Fleisch + Gemüse + 2x Kräuter | Methode: Kochen"
         }
     }
 }

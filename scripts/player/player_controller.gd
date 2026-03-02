@@ -1,6 +1,11 @@
 extends CharacterBody3D
 
-const SPEED = 6.0
+const BASE_SPEED = 6.0
+var SPEED : float : 
+	get:
+		if GameManager.has_talent("swift_feet"):
+			return BASE_SPEED * 1.2
+		return BASE_SPEED
 const GRAVITY = 9.8
 
 @onready var nav_agent : NavigationAgent3D = $NavigationAgent3D
@@ -82,8 +87,25 @@ func _try_interact(target: Node3D) -> void:
 		print("[Player] Interagieren mit: ", target.name)
 		target.interact(self)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("inventory_toggle"):
+		# Fallback falls kein Input-Mapping namens "inventory_toggle" existiert, nutzen wir explizit KEY_I
+		var ui = get_node_or_null("/root/TavernPrototype/InventoryUI")
+		if ui:
+			if ui.visible:
+				ui.close()
+			else:
+				ui.open()
+	
+	if event.is_action_pressed("toggle_talents") or (event is InputEventKey and event.keycode == KEY_T and event.pressed and not event.echo):
+		var ui = get_node_or_null("/root/TavernPrototype/TalentTreeUI")
+		if ui:
+			if ui.visible:
+				ui.close()
+			else:
+				ui.open()
+
 func set_locked(val: bool) -> void:
 	_locked = val
 	if val and nav_agent:
 		nav_agent.target_position = global_position # Stoppe aktuelle Bewegung
-

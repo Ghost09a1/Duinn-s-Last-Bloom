@@ -9,20 +9,23 @@ var _staff_btns: Dictionary = {}
 
 var base_rent = 25
 var staff_db = {}
-
-# Alle Shop-Items: id, label, kosten, effekt-beschreibung
-const SHOP_ITEMS = [
-	{ "id": "comfy_chairs",  "cost": 100, "label": "Bequeme Stühle",    "effect": "+25% Trinkgeld, +30s Geduld" },
-	{ "id": "new_sign",      "cost": 150, "label": "Neues Schild",       "effect": "+1 Gast pro Nacht" },
-	{ "id": "fancy_bar",     "cost": 300, "label": "Edler Tresen",       "effect": "+50% Trinkgeld" },
-	{ "id": "notice_board",  "cost": 120, "label": "Auftragsboard",      "effect": "Aktive Bestellung immer sichtbar" },
-	{ "id": "debt_payoff",   "cost": 500, "label": "Schulden abbezahlen","effect": "Entgeht dem Ruin (Game Over Condition)" },
-]
+var upgrades_db = []
 
 func _ready():
 	_load_staff_db()
+	_load_upgrades_db()
 	_build_ui()
 	hide()
+
+func _load_upgrades_db():
+	var path = "res://data/items/upgrades.json"
+	if FileAccess.file_exists(path):
+		var f = FileAccess.open(path, FileAccess.READ)
+		var json = JSON.new()
+		if json.parse(f.get_as_text()) == OK:
+			if json.data.has("upgrades"):
+				for key in json.data["upgrades"]:
+					upgrades_db.append(json.data["upgrades"][key])
 
 func _load_staff_db():
 	var path = "res://data/staff/staff_roles.json"
@@ -80,7 +83,7 @@ func _build_ui():
 	lbl_shop.add_theme_font_size_override("font_size", 20)
 	right.add_child(lbl_shop)
 
-	for item in SHOP_ITEMS:
+	for item in upgrades_db:
 		var btn = Button.new()
 		btn.text = "[%dG] %s – %s" % [item["cost"], item["label"], item["effect"]]
 		btn.pressed.connect(_buy_upgrade.bind(item["id"], item["cost"]))
@@ -189,7 +192,7 @@ func _update_ui():
 	]
 
 	# Shop-Buttons: gekaufte Upgrades deaktivieren
-	for item in SHOP_ITEMS:
+	for item in upgrades_db:
 		var btn = _shop_btns.get(item["id"])
 		if btn:
 			if item["id"] in GameManager.active_upgrades:
@@ -286,6 +289,6 @@ func _on_go_to_garden():
 
 func _on_next_shift():
 	hide()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	GameManager.save_game()
 	GameManager.restart_night()

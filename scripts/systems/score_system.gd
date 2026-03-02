@@ -27,12 +27,12 @@ func record_service(result: Dictionary) -> void:
 	_guest_count += 1
 	
 	if result.get("success", false):
-		var base_money : int = result.get("earned_money", 0)
-		var multiplier : float = GameManager.get_tip_multiplier()
-		var final_money : int = int(base_money * multiplier)
+		var final_money : int = result.get("earned_money", 0)
+		var base_money : int = result.get("base_price", 0)
+		var mult : float = result.get("tip_mult", 1.0)
 		money_earned += final_money
-		if multiplier > 1.0:
-			print("[Score] Trinkgeld-Bonus ×%.2f: %d → %d" % [multiplier, base_money, final_money])
+		if mult > 1.0:
+			print("[Score] Trinkgeld-Bonus ×%.2f: %d → %d" % [mult, base_money, final_money])
 		var tip = result.get("earned_tip", "")
 		if tip != "":
 			tips_collected.append(tip)
@@ -46,6 +46,12 @@ func record_service(result: Dictionary) -> void:
 	var msg = "Service: %s an %s (Erfolg: %s)" % [result.get("served_item", "?"), result.get("guest_id", "?"), result.get("success", false)]
 	GameManager.log_event(msg)
 	print("[Score] Ergebnis gespeichert: %s" % result)
+	
+	# Session 16: Quest-Fortschritt prüfen
+	if result.get("success", false):
+		QuestManager.check_progress("serve_item", result)
+		if result.get("is_perfect", false):
+			QuestManager.check_progress("serve_item_perfect", result)
 
 	
 	# ── Zimmer-Bewerbung ────────────────────────────────────────

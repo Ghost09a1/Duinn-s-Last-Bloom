@@ -1,0 +1,55 @@
+{
+    "id": "beatrice_01",
+    "nodes": {
+        "start": {
+            "speaker": "Beatrice",
+            "text": "Ah, der Wirt! Das 'Duinn's Last Bloom' hat sich gemacht. Aber mir fehlt noch ein ganz spezieller Geschmack...",
+            "choices": [
+                {
+                    "text": "Was kann ich für dich tun?",
+                    "next": "quest_offer"
+                },
+                {
+                    "text": "Direkt zum Service.",
+                    "action": "open_service"
+                }
+            ]
+        },
+        "quest_offer": {
+            "speaker": "Beatrice",
+            "text": "Ich habe von einem 'Berry Smash' gehört, der so perfekt gemixt sein soll, dass er die Geister weckt. Traust du dir das zu?",
+            "choices": [
+                {
+                    "text": "Natürlich, kommt sofort!",
+                    "action": "start_quest",
+                    "quest_id": "beatrice_trial",
+                    "next": "quest_accepted"
+                },
+                {
+                    "text": "Vielleicht später.",
+                    "next": "later"
+                }
+            ]
+        },
+        "quest_accepted": {
+            "speaker": "Beatrice",
+            "text": "Ich wusste, auf dich ist Verlass. Ich warte hier!",
+            "choices": [
+                {
+                    "text": "An die Arbeit.",
+                    "action": "open_service"
+                }
+            ]
+        },
+        "later": {
+            "speaker": "Beatrice",
+            "text": "Schade. Dann erst mal das Übliche.",
+            "choices": [
+                {
+                    "text": "Klar.",
+                    "action": "open_service"
+                }
+            ]
+        }
+    }
+}

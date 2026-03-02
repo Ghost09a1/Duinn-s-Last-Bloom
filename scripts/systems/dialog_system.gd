@@ -66,6 +66,12 @@ func choose(index: int) -> void:
 		if _guest:
 			ServiceSystem.open(_guest)
 		return
+	
+	if action == "start_quest":
+		var q_id = choice.get("quest_id", "")
+		if q_id != "":
+			QuestManager.accept_quest(q_id)
+		# Dialog geht meistens weiter oder endet danach
 
 	if next == "end" or next.is_empty() or not _nodes.has(next):
 		print("[Dialog] Dialog beendet.")

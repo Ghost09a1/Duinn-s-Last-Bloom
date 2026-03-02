@@ -11,8 +11,26 @@ var global_money : int = 0
 var global_inventory : Array[String] = []
 var active_upgrades : Array[String] = []
 var active_staff : Array[String] = []
+var unlocked_talents : Array[String] = []
+var talent_points : int = 0
+
+var cleanliness_level: int = 100
+var security_buff: float = 0.0
 
 var is_game_over : bool = false
+
+func _ready() -> void:
+	# Die Maus muss in einem isometrischen Spiel sichtbar sein!
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	if global_seed == 0:
+		randomize()
+		global_seed = randi()
+		
+	# Flags vom DialogSystem direkt ans ScoreSystem weiterleiten
+	DialogSystem.flag_set.connect(ScoreSystem.record_flag)
+	_run_boot_validator()
+	load_game()
 var game_over_reason : String = ""
 
 # ── Progression (Tiers) ──────────────────────────────────────
@@ -32,8 +50,9 @@ func _check_tier_upgrade() -> void:
 	if threshold > 0 and reputation >= threshold:
 		var old_tier = inn_tier
 		inn_tier = next_tier
-		log_event("Das Inn hat Tier %d erreicht!" % inn_tier)
-		print("+++ TIER UPGRADE: %d -> %d +++" % [old_tier, inn_tier])
+		talent_points += 1
+		log_event("Das Inn hat Tier %d erreicht! (+1 Talentpunkt)" % inn_tier)
+		print("+++ TIER UPGRADE: %d -> %d (+1 Punkt) +++" % [old_tier, inn_tier])
 		_check_tier_upgrade() # Rekursiv für Multi-Level-Ups
 
 func _get_reputation_threshold(tier: int) -> int:
@@ -97,16 +116,33 @@ func get_tip_multiplier() -> float:
 	# Schulden-Malus überschreibt alles – spürbare Konsequenz!
 	if "debt_malus" in active_upgrades:
 		return 0.5
+	
 	var m := 1.0
+	
+	# Sauberkeits-Malus (ab unter 50%)
+	if cleanliness_level < 50:
+		var penalty = (50 - cleanliness_level) * 0.01 # Max 0.5 Malus bei 0% Sauberkeit
+		m -= penalty
+		print("[Economy] Sauberkeitspenalty: -%.2f" % penalty)
+	
 	if "comfy_chairs" in active_upgrades: m += 0.25
-	if "fancy_bar"    in active_upgrades: m += 0.5
-	return m
+	if "fancy_bar" in active_upgrades: m += 0.5
+	
+	return max(0.1, m) # Nicht unter 10% Profit fallen
 
 ## Zusätzliche Geduld (Sekunden) aus Upgrades & Personal
 func get_patience_bonus() -> float:
 	var b := 0.0
 	if "comfy_chairs" in active_upgrades: b += 30.0
 	if "bouncer" in active_staff: b += 20.0
+	
+	# Bird's Tower Bonus
+	b += security_buff
+	
+	# Master Mixer Talent (+15%)
+	if has_talent("master_mixer"):
+		b *= 1.15
+	
 	return b
 
 ## Ob Fokus-Modus aktiv ist (Bestellung immer im HUD)
@@ -123,15 +159,6 @@ var _events : Array[String] = []
 const MAX_EVENTS = 10
 
 
-func _ready() -> void:
-	if global_seed == 0:
-		randomize()
-		global_seed = randi()
-		
-	# Flags vom DialogSystem direkt ans ScoreSystem weiterleiten
-	DialogSystem.flag_set.connect(ScoreSystem.record_flag)
-	_run_boot_validator()
-	load_game()
 
 # ── Save / Load System ───────────────────────────────────────
 const SAVE_PATH = "user://savegame.json"
@@ -150,7 +177,8 @@ func save_game() -> void:
 		"flags_set": ScoreSystem._flags_set,
 		"npc_memory": npc_memory,
 		"reputation": reputation,
-		"inn_tier": inn_tier
+		"inn_tier": inn_tier,
+		"cleanliness_level": cleanliness_level
 	}
 	var f = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f:
@@ -194,8 +222,9 @@ func load_game() -> void:
 			npc_memory             = data.get("npc_memory", {})
 			reputation             = data.get("reputation", 0)
 			inn_tier               = data.get("inn_tier", 1)
+			cleanliness_level      = data.get("cleanliness_level", 100)
 			
-			print("[Save] Spielstand geladen. (Tag %d, %dG)" % [night_index, global_money])
+			print("[Save] Spielstand geladen. (Tag %d, %dG, %d Sauberkeit)" % [night_index, global_money, cleanliness_level])
 		f.close()
 
 
@@ -212,12 +241,17 @@ func _run_boot_validator() -> void:
 			var data: Dictionary = json.data
 			if data.has("events"):
 				events_db = data.events
+				for e_id in events_db.keys():
+					if events_db[e_id].get("weight", 0) < 0:
+						push_error("[Validator] Event '%s' hat negatives Gewicht!" % e_id)
+						errors += 1
 		else:
 			push_error("[Validator] Fehler beim Laden von events.json")
 			errors += 1
 
-	# 1. Sammle alle gültigen Items
+	# 1. Sammle alle gültigen Items und Rezepte separat
 	var valid_items := {}
+	var valid_recipes := {}
 	
 	var scan_paths = [
 		"res://data/items/items.json",
@@ -232,9 +266,22 @@ func _run_boot_validator() -> void:
 			if json.parse(f.get_as_text()) == OK:
 				var data: Dictionary = json.data
 				if data.has("items"):
-					for k in data.items.keys(): valid_items[k] = true
+					for k in data.items.keys(): 
+						if valid_items.has(k):
+							push_error("[Validator] ID-Kollision: Item '%s' doppelt!" % k)
+							errors += 1
+						valid_items[k] = true
 				if data.has("recipes"):
-					for k in data.recipes.keys(): valid_items[k] = true
+					for k in data.recipes.keys(): 
+						if valid_recipes.has(k):
+							push_error("[Validator] ID-Kollision: Rezept '%s' doppelt!" % k)
+							errors += 1
+						valid_recipes[k] = true
+
+	# Kombinierte Liste für Gäste-Prüfung
+	var all_accessible_ids = valid_items.duplicate()
+	for k in valid_recipes:
+		all_accessible_ids[k] = true
 
 	# 2. Prüfe Gäste
 	var guests_path = "res://data/guests/guests.json"
@@ -245,9 +292,13 @@ func _run_boot_validator() -> void:
 			var guests: Dictionary = json.data
 			for g_id in guests.keys():
 				var g = guests[g_id]
+				if g.get("spawn_weight", 100) <= 0:
+					push_error("[Validator] Gast '%s' hat Spawn-Gewicht <= 0!" % g_id)
+					errors += 1
+					
 				# Item check
 				var req_item = g.get("requested_item", "")
-				if req_item != "" and not valid_items.has(req_item):
+				if req_item != "" and not all_accessible_ids.has(req_item):
 					push_error("[Validator] Gast '%s' verlangt '%s', aber dieses Item/Rezept existiert nicht!" % [g_id, req_item])
 					errors += 1
 				
@@ -271,13 +322,37 @@ func register_spawner(spawner: Node) -> void:
 	phase = Phase.IN_NIGHT
 	ScoreSystem.reset()
 	print("[GameManager] Nacht %d startet. (Geld: %dG)" % [night_index, global_money])
-	spawner.start_night()
+	
+	# Event-Banner anzeigen, bevor Gäste spawnen
+	var ui_scene = load("res://scenes/ui/DayStartUI.tscn")
+	if ui_scene:
+		var start_ui = ui_scene.instantiate()
+		get_tree().root.add_child(start_ui)
+		start_ui.day_started.connect(func():
+			spawner.start_night()
+		)
+		start_ui.open()
+	else:
+		push_warning("[GameManager] DayStartUI.tscn nicht gefunden! Starte direkt.")
+		spawner.start_night()
 
 func apply_night_results(money: int, tips: Array) -> void:
 	"""Speichert die Einnahmen der Nacht im globalen Status."""
 	global_money += money
 	for tip in tips:
 		global_inventory.append(tip)
+	
+	# Session 13: Verschmutzung durch Gäste
+	var guest_dirt = int(float(money) / 50.0) + 5 # Simpler Dirt-Faktor
+	if current_event == "storm":
+		guest_dirt += 20
+		print("[GameManager] Durch den Sturm kam extra viel Dreck herein!")
+	
+	reduce_cleanliness(guest_dirt)
+	
+	# Reset temp buffs
+	security_buff = 0.0
+	
 	print("[GameManager] Nacht-Resultate gebucht. Neues Guthaben: %dG" % global_money)
 
 
@@ -327,6 +402,7 @@ func _reset_all_data() -> void:
 	global_money = 0
 	reputation = 0
 	inn_tier = 1
+	cleanliness_level = 100
 	global_inventory.clear()
 	active_upgrades.clear()
 	active_staff.clear()
@@ -398,3 +474,29 @@ func process_rooms(night_summary: Dictionary) -> void:
 	if new_income > 0:
 		night_summary["room_renewals"] = new_income
 		global_money += new_income
+
+func add_cleanliness(amount: int) -> void:
+	cleanliness_level = clampi(cleanliness_level + amount, 0, 100)
+	print("[GameManager] Sauberkeit: %+d -> %d/100" % [amount, cleanliness_level])
+
+func reduce_cleanliness(amount: int) -> void:
+	cleanliness_level = clampi(cleanliness_level - amount, 0, 100)
+	print("[GameManager] Sauberkeit: %+d -> %d/100" % [-amount, cleanliness_level])
+
+func apply_security_reward(score: int) -> void:
+	# Beispiel: Jede 5 Treffer bringen +10s Geduld (max 60s)
+	var bonus = clampf((float(score) / 5.0) * 10.0, 0, 60.0)
+	security_buff = bonus
+	print("[GameManager] Security-Belohnung: %d Treffer -> +%.1fs Geduld" % [score, bonus])
+
+# ── Talent Hilfsfunktionen ──────────────────────────────────
+func has_talent(talent_id: String) -> bool:
+	return unlocked_talents.has(talent_id)
+
+func unlock_talent(talent_id: String, cost: int) -> bool:
+	if talent_points >= cost and not has_talent(talent_id):
+		talent_points -= cost
+		unlocked_talents.append(talent_id)
+		print("[Progression] Talent freigeschaltet: %s" % talent_id)
+		return true
+	return false

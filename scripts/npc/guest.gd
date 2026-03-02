@@ -10,6 +10,9 @@ extends Node3D
 @export var requested_intent: Array = []
 @export var size_pref      : String = "any"  # small | big | any
 
+var wants_drink : bool = true
+var wants_food  : bool = false
+
 # ── Zimmer-Wunsch ───────────────────────────────────────────
 @export var wants_room_chance    : float = 0.0
 @export var wants_room           : bool  = false
@@ -63,7 +66,7 @@ func _apply_random_skin() -> void:
 	var mesh_inst : MeshInstance3D = _find_mesh(char_model)
 	if not mesh_inst:
 		return
-	var tex_path : String = SKINS[randi() % SKINS.size()]
+	var tex_path : String = SKINS[_rng.randi() % SKINS.size()]
 	var tex : Texture2D = load(tex_path)
 	if not tex:
 		return
@@ -101,9 +104,14 @@ func _process(_delta: float) -> void:
 	else:
 		patience_label.visible = false
 
+var _rng := RandomNumberGenerator.new()
 
 func setup(data: Dictionary) -> void:
 	"""Befülle den Gast aus einem Dictionary (z.B. aus JSON geladen)."""
+	
+	if data.has("instance_seed"):
+		_rng.seed = data.get("instance_seed")
+	
 	guest_id        = data.get("id",              guest_id)
 	display_name    = data.get("display_name",    display_name)
 	requested_item  = data.get("requested_item",  requested_item)
@@ -161,37 +169,44 @@ func on_served(item: String) -> void:
 	var reaction  : String
 	var mood_delta : int = 0
 	
-	# 1) Exakter Treffer
 	if item == requested_item:
-		reaction   = _pick(["Perfekt! Genau das!", "Oh ja, das ist es!", "Ausgezeichnet!"])
+		reaction = "Perfect! 😄"
 		mood_delta = 2
-	# 2) Dislike
+		GameManager.log_event("Served %s: %s -> %s" % [reaction, display_name, item])
+	# 2) Hat gewünschte Tags
+	elif _has_all_tags(item_tags, requested_intent):
+		reaction = "Okay. 🙂"
+		mood_delta = 1
+		GameManager.log_event("Served Good (Tags OK): %s -> %s" % [display_name, item])
+	# 3) Dislike getroffen -> Katastrophe
 	elif _tags_overlap(item_tags, dislikes):
-		reaction   = _pick(["Das mag ich gar nicht...", "Ugh, das ist nichts für mich.", "Nein danke!"])
+		reaction = "Disgusting! 🤢😡"
 		mood_delta = -2
-	# 3) Intent-Treffer (partial)
-	elif not requested_intent.is_empty() and _tags_overlap(item_tags, requested_intent):
-		reaction   = _pick(["Hmm, nicht schlecht.", "Das tut's.", "Passt so."])
-		mood_delta = 1
-	# 4) Like-Tag
-	elif _tags_overlap(item_tags, likes):
-		reaction   = _pick(["Oh, das mag ich!", "Angenehm!", "Gut gewählt."])
-		mood_delta = 1
-	# 5) Völlig falsch
+		GameManager.log_event("Served DISLIKE: %s -> %s" % [display_name, item])
+	# 4) Falsch, aber nicht verhasst
 	else:
-		reaction   = _pick(["Das wollte ich nicht.", "Naja...", "War wohl nichts."])
+		reaction = "Wrong order. 😠"
 		mood_delta = -1
-	
+		GameManager.log_event("Served Wrong: %s -> %s" % [display_name, item])
+		
+	# Flags anwenden
+	var p = get_node_or_null("/root/TavernPrototype/Player") # Hacky, besser über Signal oder Parameter
+	if mood_delta >= 1:
+		for f in flags_on_success: ScoreSystem.set_flag(f, true)
+		if p and p.has_method("play_anim"): p.play_anim("cheer")
+	else:
+		for f in flags_on_fail: ScoreSystem.set_flag(f, true)
+		if p and p.has_method("play_anim"): p.play_anim("sad")
+
+	# Stats aufnehmen
 	mood = clampi(mood + mood_delta, -2, 2)
-	print("[Guest] %s – Reaktion: %s (mood: %d)" % [display_name, reaction, mood])
-	
-	# Reaktionstext über dem Gast anzeigen
+
 	if state_label:
-		state_label.text = reaction
-		state_label.modulate = Color(1.0, 0.9, 0.3) if mood_delta >= 1 else Color(1.0, 0.3, 0.3)
+		state_label.text = "😄" if mood_delta >= 1 else "😡"
+		state_label.modulate = Color(0.2, 1.0, 0.2) if mood_delta >= 1 else Color(1.0, 0.2, 0.2)
 	
 	_set_state(State.SERVED)
-	await get_tree().create_timer(2.5).timeout
+	await get_tree().create_timer(2.0).timeout
 	_leave()
 
 
@@ -210,9 +225,15 @@ func _tags_overlap(a: Array, b: Array) -> bool:
 			return true
 	return false
 
+func _has_all_tags(item_tags: Array, req_tags: Array) -> bool:
+	for tag in req_tags:
+		if not tag in item_tags:
+			return false
+	return true
+
 
 func _pick(options: Array) -> String:
-	return options[randi() % options.size()]
+	return options[_rng.randi() % options.size()]
 
 
 # ── Private ──────────────────────────────────────────────────
@@ -241,18 +262,56 @@ func _set_state(new_state: State) -> void:
 
 
 func _update_state_label() -> void:
-	if state_label:
-		state_label.text = "[%s]" % State.keys()[state]
+	if not state_label: return
+	
+	match state:
+		State.ENTERING:
+			state_label.text = "🚶"
+			state_label.modulate = Color.WHITE
+		State.SEATED:
+			state_label.text = "🪑"
+			state_label.modulate = Color(0.8, 0.8, 0.8)
+		State.WAITING_FOR_SERVICE:
+			if wants_drink and wants_food:
+				state_label.text = "🍺🍔"
+			elif wants_drink:
+				state_label.text = "🍺"
+			elif wants_food:
+				state_label.text = "🍔"
+			else:
+				state_label.text = "💬"
+			state_label.modulate = Color.WHITE
+		State.TALKING:
+			state_label.text = "💬?"
+			state_label.modulate = Color(0.6, 0.8, 1.0)
+		State.SERVED:
+			pass # Wird in on_served mit Reactions (😡/😄) gesetzt
+		State.LEAVING:
+			state_label.text = "🚪"
+			state_label.modulate = Color(0.5, 0.5, 0.5)
 
 
 func _on_patience_timer_timeout() -> void:
 	if state == State.WAITING_FOR_SERVICE:
-		if "bartender" in GameManager.active_staff and requested_item != "":
-			print("[Guest] %s wird gerade noch rechtzeitig vom Barkeeper bedient." % display_name)
-			on_served(requested_item)
-		else:
-			print("[Guest] %s verlässt (zu lange gewartet)." % display_name)
-			GameManager.log_event("Patience out: %s" % display_name)
-			mood = clampi(mood - 1, -2, 2)
-			ScoreSystem.record_guest_skipped(guest_id)
-			_leave()
+		if has_node("CharacterModel/AnimationPlayer"):
+			var anim = get_node("CharacterModel/AnimationPlayer")
+			if anim.has_animation("sad"): anim.play("sad")
+			
+		if patience_label:
+			patience_label.text = "Gegangen!"
+			patience_label.modulate = Color("f44336")
+			
+		# Angry Emoji setzen, bevor er geht
+		if state_label:
+			state_label.text = "😡"
+			state_label.modulate = Color(1.0, 0.2, 0.2)
+			
+		print("[Guest] %s verlässt (zu lange gewartet)." % display_name)
+		GameManager.log_event("Patience out: %s" % display_name)
+		mood = clampi(mood - 1, -2, 2)
+		ScoreSystem.record_guest_skipped(guest_id)
+		
+		# Kurz warten, damit man das rote Emoji sieht, dann echtes Leave() verarbeiten
+		_set_state(State.SERVED) # Hack: Set on SERVED so update_label doesn't overwrite it immediately
+		await get_tree().create_timer(1.0).timeout
+		_leave()

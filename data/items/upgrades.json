@@ -1,0 +1,34 @@
+{
+    "upgrades": {
+        "comfy_chairs": {
+            "id": "comfy_chairs",
+            "cost": 100,
+            "label": "Bequeme Stuehle",
+            "effect": "+25% Trinkgeld, +30s Geduld"
+        },
+        "new_sign": {
+            "id": "new_sign",
+            "cost": 150,
+            "label": "Neues Schild",
+            "effect": "+1 Gast pro Nacht"
+        },
+        "fancy_bar": {
+            "id": "fancy_bar",
+            "cost": 300,
+            "label": "Edler Tresen",
+            "effect": "+50% Trinkgeld"
+        },
+        "notice_board": {
+            "id": "notice_board",
+            "cost": 120,
+            "label": "Auftragsboard",
+            "effect": "Aktive Bestellung immer sichtbar"
+        },
+        "debt_payoff": {
+            "id": "debt_payoff",
+            "cost": 500,
+            "label": "Schulden abbezahlen",
+            "effect": "Entgeht dem Ruin (Game Over Condition)"
+        }
+    }
+}

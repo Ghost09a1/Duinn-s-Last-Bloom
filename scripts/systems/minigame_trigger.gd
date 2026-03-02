@@ -32,5 +32,9 @@ func _on_minigame_finished(result: Variant, player: Node) -> void:
 	if player.has_method("set_locked"):
 		player.set_locked(false)
 		
+	# Falls es ein Schießspiel war, wenden wir die Belohnung an
+	if result is int:
+		GameManager.apply_security_reward(result)
+		
 	# Falls es eine Camera-Modifikation gab (Iso vs. ThirdPerson), wird dies im Player gehandhabt
 	print("[%s] Minigame beendet mit Resultat: %s" % [name, result])

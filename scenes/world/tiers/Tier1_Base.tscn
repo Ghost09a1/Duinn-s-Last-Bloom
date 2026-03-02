@@ -1,0 +1,220 @@
+[gd_scene format=3 uid="uid://cvw44h4y37hqu"]
+
+[ext_resource type="Script" uid="uid://c6ni62ylmioj7" path="res://scripts/systems/station_interactable.gd" id="1_u1qdb"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_u1qdb"]
+agent_radius = 0.4
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h3j0v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2n023"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hmr67"]
+material = SubResource("StandardMaterial3D_2n023")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2lcte"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t740t"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0tdie"]
+material = SubResource("StandardMaterial3D_t740t")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2b4c0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ef5be"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_58s3s"]
+material = SubResource("StandardMaterial3D_ef5be")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3v728"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2fodj"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_he0ci"]
+material = SubResource("StandardMaterial3D_2fodj")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u8qr1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tqwvr"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5i8q7"]
+material = SubResource("StandardMaterial3D_tqwvr")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0sqjy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgf0m"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_75plh"]
+material = SubResource("StandardMaterial3D_vgf0m")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nf6x5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c4pab"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rr36a"]
+material = SubResource("StandardMaterial3D_c4pab")
+
+[node name="Tier1_Base" type="Node3D" unique_id=2075585535]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1284338672]
+navigation_mesh = SubResource("NavigationMesh_u1qdb")
+
+[node name="Structure" type="Node3D" parent="NavigationRegion3D" unique_id=414690674]
+
+[node name="Floor_Main" type="CSGBox3D" parent="NavigationRegion3D/Structure" unique_id=1199570821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+use_collision = true
+size = Vector3(14, 0.4, 12)
+
+[node name="Floor_Upper" type="CSGBox3D" parent="NavigationRegion3D/Structure" unique_id=1450586308]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -4)
+use_collision = true
+size = Vector3(14, 0.4, 4)
+
+[node name="Stairs" type="CSGPolygon3D" parent="NavigationRegion3D/Structure" unique_id=1272005317]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 0, -2)
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 4, 4, 4, 4, 0)
+depth = 2.0
+
+[node name="Wall_North" type="CSGBox3D" parent="NavigationRegion3D/Structure" unique_id=500059432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -6)
+use_collision = true
+size = Vector3(14, 8, 0.4)
+
+[node name="Wall_South" type="CSGBox3D" parent="NavigationRegion3D/Structure" unique_id=961711643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 6)
+use_collision = true
+size = Vector3(14, 4, 0.4)
+
+[node name="Wall_West" type="CSGBox3D" parent="NavigationRegion3D/Structure" unique_id=2034240426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 3.8, 0)
+use_collision = true
+size = Vector3(0.4, 8, 12)
+
+[node name="Wall_East" type="CSGBox3D" parent="NavigationRegion3D/Structure" unique_id=1738511470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, 0)
+use_collision = true
+size = Vector3(0.4, 4, 12)
+
+[node name="Stations" type="Node3D" parent="NavigationRegion3D" unique_id=258869264]
+
+[node name="StationDrinks" type="StaticBody3D" parent="NavigationRegion3D/Stations" unique_id=1311191855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, -2)
+script = ExtResource("1_u1qdb")
+station_id = "drinks_station"
+display_name = "StationDrinks"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Stations/StationDrinks" unique_id=1307868765]
+shape = SubResource("BoxShape3D_h3j0v")
+
+[node name="Placeholder" type="MeshInstance3D" parent="NavigationRegion3D/Stations/StationDrinks" unique_id=1235870037]
+mesh = SubResource("BoxMesh_hmr67")
+
+[node name="StationFood" type="StaticBody3D" parent="NavigationRegion3D/Stations" unique_id=2013504169]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, -4)
+script = ExtResource("1_u1qdb")
+station_id = "food_station"
+display_name = "StationFood"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Stations/StationFood" unique_id=1353222803]
+shape = SubResource("BoxShape3D_2lcte")
+
+[node name="Placeholder" type="MeshInstance3D" parent="NavigationRegion3D/Stations/StationFood" unique_id=452804163]
+mesh = SubResource("BoxMesh_0tdie")
+
+[node name="ServiceBell" type="StaticBody3D" parent="NavigationRegion3D/Stations" unique_id=1033561243]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, -2)
+script = ExtResource("1_u1qdb")
+station_id = "bell"
+display_name = "ServiceBell"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Stations/ServiceBell" unique_id=1788253731]
+shape = SubResource("BoxShape3D_2b4c0")
+
+[node name="Placeholder" type="MeshInstance3D" parent="NavigationRegion3D/Stations/ServiceBell" unique_id=710274318]
+mesh = SubResource("BoxMesh_58s3s")
+
+[node name="LedgerDesk" type="StaticBody3D" parent="NavigationRegion3D/Stations" unique_id=1033319389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, 4)
+script = ExtResource("1_u1qdb")
+station_id = "ledger"
+display_name = "LedgerDesk"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Stations/LedgerDesk" unique_id=296787358]
+shape = SubResource("BoxShape3D_3v728")
+
+[node name="Placeholder" type="MeshInstance3D" parent="NavigationRegion3D/Stations/LedgerDesk" unique_id=1630489250]
+mesh = SubResource("BoxMesh_he0ci")
+
+[node name="ShopBoard" type="StaticBody3D" parent="NavigationRegion3D/Stations" unique_id=1495162186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.5, -1)
+script = ExtResource("1_u1qdb")
+station_id = "shop_board"
+display_name = "ShopBoard"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Stations/ShopBoard" unique_id=707626970]
+shape = SubResource("BoxShape3D_u8qr1")
+
+[node name="Placeholder" type="MeshInstance3D" parent="NavigationRegion3D/Stations/ShopBoard" unique_id=484555389]
+mesh = SubResource("BoxMesh_5i8q7")
+
+[node name="RoomBoard" type="StaticBody3D" parent="NavigationRegion3D/Stations" unique_id=2133207429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.5, -2)
+script = ExtResource("1_u1qdb")
+station_id = "room_board"
+display_name = "RoomBoard"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Stations/RoomBoard" unique_id=9557224]
+shape = SubResource("BoxShape3D_0sqjy")
+
+[node name="Placeholder" type="MeshInstance3D" parent="NavigationRegion3D/Stations/RoomBoard" unique_id=1808806159]
+mesh = SubResource("BoxMesh_75plh")
+
+[node name="CleaningBroom" type="StaticBody3D" parent="NavigationRegion3D/Stations" unique_id=1501668477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 5)
+script = ExtResource("1_u1qdb")
+station_id = "minigame_cleaning"
+display_name = "CleaningBroom"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Stations/CleaningBroom" unique_id=302448555]
+shape = SubResource("BoxShape3D_nf6x5")
+
+[node name="Placeholder" type="MeshInstance3D" parent="NavigationRegion3D/Stations/CleaningBroom" unique_id=1543298119]
+mesh = SubResource("BoxMesh_rr36a")
+
+[node name="SpawnPoints" type="Node3D" parent="." unique_id=700374832]
+
+[node name="SpawnOutside" type="Marker3D" parent="SpawnPoints" unique_id=1394917037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8)
+
+[node name="Entrance" type="Marker3D" parent="SpawnPoints" unique_id=1196480471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 5)
+
+[node name="Exit" type="Marker3D" parent="SpawnPoints" unique_id=1722955185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8)
+
+[node name="SpawnPoint_Bar1" type="Marker3D" parent="SpawnPoints" unique_id=565669414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="SpawnPoint_Bar2" type="Marker3D" parent="SpawnPoints" unique_id=1235711379]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="SpawnPoint_Table1_A" type="Marker3D" parent="SpawnPoints" unique_id=643086177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
+
+[node name="SpawnPoint_Table1_B" type="Marker3D" parent="SpawnPoints" unique_id=1896951533]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 3)
+
+[node name="SpawnPoint_Table2_A" type="Marker3D" parent="SpawnPoints" unique_id=342831567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+
+[node name="SpawnPoint_Table2_B" type="Marker3D" parent="SpawnPoints" unique_id=881581091]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)

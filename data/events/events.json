@@ -23,6 +23,14 @@
             "guest_modifier": 3,
             "patience_bonus": -15.0,
             "description": "Der Marktplatz war heute voll! Viele durstige Gäste, allerdings wartet niemand gern lang."
+        },
+        "caravan": {
+            "label": "Handelskarawane",
+            "type": "day_event",
+            "weight": 10,
+            "guest_modifier": 1,
+            "patience_bonus": 10.0,
+            "description": "Eine Karawane aus dem Fernen Osten ist eingetroffen und bringt exotische Gewürze mit! (Curry freigeschaltet)"
         }
     }
 }

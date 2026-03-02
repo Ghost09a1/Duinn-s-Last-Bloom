@@ -77,20 +77,27 @@ func run_simulation(seed_val: int, num_nights: int = 100, save_to_disk: bool = t
 				_outcome = "perfect"
 				_is_perfect = true
 				perfect_count += 1
-				var money = int(gold_val * multiplier) + 5
+				var money = int((gold_val + 5) * multiplier) # +5 Perfect Bonus
 				earned_tips += money
-				ScoreSystem.record_service({"guest_id": guest_id, "success": true, "served_item": "beer", "is_perfect": true, "earned_money": money, "mood_delta": 5})
+				ScoreSystem.record_service({"guest_id": guest_id, "success": true, "served_item": "beer", "is_perfect": true, "earned_money": money, "base_price": gold_val, "tip_mult": multiplier, "mood_delta": 5})
 			else:
 				_outcome = "ok"
 				var money = int(gold_val * multiplier)
 				earned_tips += money
-				ScoreSystem.record_service({"guest_id": guest_id, "success": true, "served_item": "beer", "is_perfect": false, "earned_money": money, "mood_delta": 2})
+				ScoreSystem.record_service({"guest_id": guest_id, "success": true, "served_item": "beer", "is_perfect": false, "earned_money": money, "base_price": gold_val, "tip_mult": multiplier, "mood_delta": 2})
 
 		# 2. Rechnungen / Miete am Ende der Nacht
 		var rent = 25 + (i * 5)
 		var staff_cost = _get_total_staff_cost()
 		var total_bills = rent + staff_cost
 		
+		# ROOM RENTALS (Mock: 1 out of 5 guests rents a room for 15G if active)
+		var room_income = 0
+		if i > 2:
+			var rentals = randi() % 2
+			room_income = rentals * 15 * 7 # 1 week advance
+		
+		GameManager.global_money += room_income
 		GameManager.global_money -= total_bills # Kann negativ werden
 		
 		# Schulden-Prüfung
@@ -178,3 +185,53 @@ func _export_csv(path: String) -> void:
 		
 	f.close()
 	print("[Simulator] CSV erfolgreich exportiert nach: %s" % ProjectSettings.globalize_path(path))
+
+
+func run_seed_sweep(num_seeds: int = 10, num_nights: int = 100) -> void:
+	print("[Simulator] Starte Sweep über %d Seeds (jeweils %d Nächte)..." % [num_seeds, num_nights])
+	var sweep_results = []
+	
+	for s in range(num_seeds):
+		# Deterministischer, aber unterschiedlicher Seed für Test
+		var test_seed = 10000 + s
+		run_simulation(test_seed, num_nights, false) # save_to_disk = false
+		
+		var final_wealth = 0
+		if _results.size() > 0:
+			final_wealth = _results.back().get("net_wealth", 0)
+			
+		var total_guests = 0
+		var total_perfects = 0
+		var total_walkouts = 0
+		
+		for r in _results:
+			total_guests += r.guests_total
+			total_perfects += r.perfect
+			total_walkouts += r.walkouts
+			
+		var perf_rate = 0.0
+		var walkout_rate = 0.0
+		if total_guests > 0:
+			perf_rate = float(total_perfects) / float(total_guests)
+			walkout_rate = float(total_walkouts) / float(total_guests)
+			
+		sweep_results.append({
+			"seed": test_seed,
+			"final_wealth": final_wealth,
+			"perf_rate": perf_rate,
+			"walkout_rate": walkout_rate
+		})
+	
+	# Sortieren nach Reichtum absteigend
+	sweep_results.sort_custom(func(a, b): return a.final_wealth > b.final_wealth)
+	
+	var export_path = "user://sweep_results.csv"
+	var f = FileAccess.open(export_path, FileAccess.WRITE)
+	if f:
+		f.store_line("Seed;FinalWealth;PerfectRate;WalkoutRate;IsGolden")
+		for i in range(sweep_results.size()):
+			var res = sweep_results[i]
+			var is_golden = "Yes" if i < 3 else "No" # Top 3 are golden
+			f.store_line("%d;%d;%.2f;%.2f;%s" % [res.seed, res.final_wealth, res.perf_rate, res.walkout_rate, is_golden])
+		f.close()
+		print("[Simulator] Sweep beendet. Top Seed: %d (%dG). Ergebnisse in: %s" % [sweep_results[0].seed, sweep_results[0].final_wealth, ProjectSettings.globalize_path(export_path)])

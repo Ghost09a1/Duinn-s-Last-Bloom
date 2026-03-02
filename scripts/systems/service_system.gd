@@ -151,9 +151,18 @@ func serve_from_minigame(item_id: String) -> void:
 func _evaluate_service(served_id: String) -> void:
 	"""Wertet den servierten Drink aus."""
 
-	# 1. Daten holen – direkt vom Gast-Node
-	var item_data   : Dictionary = _items.get(served_id, {"tags": []})
+	# 1. Daten holen – Fallback auf Rezepte, falls nicht in items.json
+	var item_data   : Dictionary = _items.get(served_id, {})
 	var served_tags : Array      = item_data.get("tags", [])
+	
+	if served_tags.is_empty():
+		# Suche in Drinks
+		if _recipes_drinks.has(served_id):
+			served_tags = _recipes_drinks[served_id].get("tags", [])
+		# Suche in Food (hier müssen wir in .recipes schauen, da _recipes_food das Ganze JSON hält)
+		elif _recipes_food.get("recipes", {}).has(served_id):
+			served_tags = _recipes_food.recipes[served_id].get("tags", [])
+
 	var likes    : Array = _current_guest.likes
 	var dislikes : Array = _current_guest.dislikes
 
@@ -185,17 +194,19 @@ func _evaluate_service(served_id: String) -> void:
 
 	var exact_match : bool = (served_id == _current_guest.requested_item)
 
+	var base_price : int = item_data.get("base_price", 10)
+	var perf_bonus : int = 0
+
 	if exact_match:
 		points       = 3
 		success      = true
 		is_perfect   = true
-		earned_money = _current_guest.wallet + 3   # +3G Perfect-Bonus
+		perf_bonus   = 5   # +5G Perfect-Bonus
 		if _current_guest.tip_pool.size() > 0:
 			earned_tip = _current_guest.tip_pool[0]
 	elif intent_matched:
 		points       = 2
 		success      = true
-		earned_money = _current_guest.wallet
 		if _current_guest.tip_pool.size() > 0:
 			earned_tip = _current_guest.tip_pool[0]
 	else:
@@ -206,6 +217,7 @@ func _evaluate_service(served_id: String) -> void:
 				break
 		if has_dislike:
 			points = -2
+			success = false
 		else:
 			var has_like := false
 			for l in likes:
@@ -215,15 +227,20 @@ func _evaluate_service(served_id: String) -> void:
 			if has_like:
 				points = 1
 				success = true
-				earned_money = int(_current_guest.wallet / 2.0)
+				base_price = int(base_price / 2.0)
 			else:
 				points = 0
+				success = false
 
 	# 2c. Big Drink Bonus (+5G, nur bei success)
 	if is_big_drink and success:
 		big_bonus    = 5
-		earned_money += big_bonus
 		print("[Service] BIG DRINK! +%dG Bonus" % big_bonus)
+
+	var tip_mult = GameManager.get_tip_multiplier()
+	if success:
+		earned_money = int((base_price + perf_bonus + big_bonus) * tip_mult)
+		print("[Service] Calc: (%d Base + %d Perf + %d Big) * %.2f Mult = %dG" % [base_price, perf_bonus, big_bonus, tip_mult, earned_money])
 
 	# 2d. size_pref Scoring
 	var size_pref : String = _current_guest.size_pref
@@ -235,6 +252,9 @@ func _evaluate_service(served_id: String) -> void:
 		print("[Service] Size-Mismatch: small + big drink -1 Punkt")
 
 	var result : Dictionary = {
+		"base_price":   base_price,
+		"bonus_amount": perf_bonus + big_bonus,
+		"tip_mult":     tip_mult,
 		"guest_id":     _current_guest.guest_id,
 		"served_item":  served_id,
 		"wanted_item":  _current_guest.requested_item,
