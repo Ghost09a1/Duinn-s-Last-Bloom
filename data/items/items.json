@@ -151,6 +151,14 @@
                 "cold",
                 "rare"
             ]
+        },
+        "portal_key": {
+            "label": "Mystischer Sternenschlüssel",
+            "tags": [
+                "magical",
+                "legendary",
+                "quest_item"
+            ]
         }
     }
 }

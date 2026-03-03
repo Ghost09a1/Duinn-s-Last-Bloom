@@ -34,6 +34,10 @@ func collect_rent() -> int:
 		if rooms[id].occupied:
 			total_rent += rooms[id].price
 			# Zimmer wieder freigeben für den nächsten Tag
+			var g_id = rooms[id].guest_id
+			if g_id != "" and "GameManager" in get_node("/root") and GameManager.npc_memory.has(g_id):
+				GameManager.npc_memory[g_id]["last_seen_day"] = GameManager.night_index
+				
 			rooms[id].occupied = false
 			rooms[id].guest_id = ""
 			emit_signal("room_freed", id)

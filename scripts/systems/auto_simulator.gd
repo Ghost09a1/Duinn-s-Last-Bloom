@@ -6,6 +6,8 @@ extends Node
 
 signal simulation_finished(filename: String)
 
+const GOLDEN_SEEDS = [10000, 10001, 10002]
+
 var _results : Array[Dictionary] = []
 
 func run_simulation(seed_val: int, num_nights: int = 100, save_to_disk: bool = true) -> void:
@@ -235,3 +237,42 @@ func run_seed_sweep(num_seeds: int = 10, num_nights: int = 100) -> void:
 			f.store_line("%d;%d;%.2f;%.2f;%s" % [res.seed, res.final_wealth, res.perf_rate, res.walkout_rate, is_golden])
 		f.close()
 		print("[Simulator] Sweep beendet. Top Seed: %d (%dG). Ergebnisse in: %s" % [sweep_results[0].seed, sweep_results[0].final_wealth, ProjectSettings.globalize_path(export_path)])
+
+func run_regression_tests() -> void:
+	print("[Simulator] Starte Regression Tests für Golden Seeds...")
+	var report_results = []
+	for test_seed in GOLDEN_SEEDS:
+		run_simulation(test_seed, 50, false) # Simuliere 50 Nächte
+		
+		var final_wealth = 0
+		if _results.size() > 0:
+			final_wealth = _results.back().get("net_wealth", 0)
+			
+		var total_guests = 0
+		var total_perfects = 0
+		
+		for r in _results:
+			total_guests += r.guests_total
+			total_perfects += r.perfect
+			
+		var perf_rate = 0.0
+		if total_guests > 0:
+			perf_rate = float(total_perfects) / float(total_guests)
+			
+		var passed = final_wealth >= 0
+		report_results.append({
+			"seed": test_seed,
+			"wealth": final_wealth,
+			"perf": perf_rate,
+			"passed": passed
+		})
+		print("[Simulator] Seed %d -> %s (Wealth: %d, Perfects: %.2f%%)" % [test_seed, "PASS" if passed else "FAIL", final_wealth, perf_rate * 100.0])
+		
+	var export_path = "user://regression_results.csv"
+	var f = FileAccess.open(export_path, FileAccess.WRITE)
+	if f:
+		f.store_line("Seed;NetWealth;PerfectRate;Passed")
+		for res in report_results:
+			f.store_line("%d;%d;%.2f;%s" % [res.seed, res.wealth, res.perf, "Yes" if res.passed else "No"])
+		f.close()
+		print("[Simulator] Regression-Report gespeichert unter: %s" % ProjectSettings.globalize_path(export_path))

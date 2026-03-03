@@ -91,6 +91,7 @@ func record_service(result: Dictionary) -> void:
 			current_trust -= 2
 			
 		mem["last_outcome"] = outcome
+		mem["last_seen_day"] = GameManager.night_index
 		current_trust = clamp(current_trust, -100, 100)
 		mem["trust"] = current_trust
 		
@@ -124,6 +125,7 @@ func record_guest_skipped(guest_id: String) -> void:
 		var mem = GameManager.npc_memory[guest_id]
 		mem["visits"] = mem.get("visits", 0) + 1
 		mem["last_outcome"] = "walkout"
+		mem["last_seen_day"] = GameManager.night_index
 		
 		var current_trust = mem.get("trust", 0)
 		current_trust -= 10 # Heftiger Malus für langes Warten

@@ -169,9 +169,13 @@ func _place_item() -> void:
 		if not prop_root: prop_root = nav
 		prop_root.add_child(new_prop)
 		
-		# Neu backen! WICHTIG!
-		print("[BuildManager] Triggere NavMesh Bake...")
-		nav.bake_navigation_mesh()
+		# prop_root.add_child(new_prop)
+		prop_root.add_child(new_prop)
+		
+		# WICHTIG: KEIN nav.bake_navigation_mesh() mehr hier!
+		# Die CollisionShape bleibt für physische Klicks/Blockaden,
+		# das NavigationObstacle3D regelt die dynamische NPC-Ausweichung.
+		print("[BuildManager] Item hinzugefügt (Avoidance aktiv).")
 	else:
 		get_tree().current_scene.add_child(new_prop)
 		

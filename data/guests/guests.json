@@ -451,5 +451,73 @@
             3,
             7
         ]
+    },
+    "void_trader": {
+        "display_name": "Händler der Leere",
+        "requested_item": "ale",
+        "requested_intent": [
+            "drink"
+        ],
+        "size_pref": "any",
+        "wallet": 800,
+        "tip_pool": [
+            "void_shard"
+        ],
+        "dialog_root_id": "guest_archmage",
+        "patience": 20.0,
+        "tags": [
+            "magical",
+            "dimensional"
+        ],
+        "flags_on_success": [],
+        "flags_on_fail": [],
+        "likes": [
+            "expensive"
+        ],
+        "dislikes": [
+            "cheap",
+            "water"
+        ],
+        "room_budget_per_week": 800,
+        "wants_room_chance": 0.1,
+        "stay_duration_days": [
+            1,
+            2
+        ]
+    },
+    "lost_knight": {
+        "display_name": "Verlorener Ritter",
+        "requested_item": "ale",
+        "requested_intent": [
+            "meat",
+            "warm"
+        ],
+        "size_pref": "big",
+        "wallet": 50,
+        "tip_pool": [
+            "gold_coin"
+        ],
+        "dialog_root_id": "guest_guard",
+        "patience": 120.0,
+        "tags": [
+            "magical",
+            "dimensional",
+            "guard"
+        ],
+        "flags_on_success": [],
+        "flags_on_fail": [],
+        "likes": [
+            "meat",
+            "alcohol"
+        ],
+        "dislikes": [
+            "sweet"
+        ],
+        "room_budget_per_week": 200,
+        "wants_room_chance": 0.8,
+        "stay_duration_days": [
+            1,
+            7
+        ]
     }
 }

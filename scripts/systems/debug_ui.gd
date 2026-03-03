@@ -16,9 +16,19 @@ func _ready() -> void:
 	btn_sim.pressed.connect(_on_sim_pressed)
 	content_lbl.get_parent().add_child(btn_sim)
 	
+	# Simulator Button 2 (Regression)
+	var btn_reg = Button.new()
+	btn_reg.text = "[H4] RUN REGRESSION TESTS"
+	btn_reg.pressed.connect(_on_reg_pressed)
+	content_lbl.get_parent().add_child(btn_reg)
+	
 func _on_sim_pressed() -> void:
 	print("[DebugUI] Starte Simulator...")
 	AutoSimulator.run_simulation(GameManager.global_seed, 100)
+
+func _on_reg_pressed() -> void:
+	print("[DebugUI] Starte Regression Tests...")
+	AutoSimulator.run_regression_tests()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_overlay"):

@@ -41,6 +41,25 @@ func generate_day(global_seed: int, day_index: int) -> Dictionary:
 				"room_roll": GameRNG.rng_for("room_roll_%d_%d" % [day_index, i]).randf()
 			}
 			guest_sequence.append(entry)
+			
+	# 4. Portal Events (Archmage Guest Injection)
+	# Finde heraus ob das Portal aktiv ist und würfle ob ein spezieller Gast kommt (alle ~3 Nächte)
+	if "PortalManager" in get_node("/root"):
+		var pm = get_node("/root/PortalManager")
+		if pm.is_active:
+			if (day_index % 3) == 0:
+				var event_type = pm.trigger_random_event()
+				if event_type == "magical_visitor":
+					var dimensional_guests = ["archmage_void", "void_trader", "lost_knight"]
+					var rng_portal = GameRNG.rng_for("portal_guest_pick_%d" % day_index)
+					var chosen_guest = dimensional_guests[rng_portal.randi() % dimensional_guests.size()]
+					var special_entry = {
+						"id": chosen_guest,
+						"instance_seed": GameRNG.rng_for("portal_guest_%d" % day_index).seed,
+						"room_roll": 1.0 # Will always want a room
+					}
+					guest_sequence.append(special_entry)
+					print("[DayGenerator] Portal Event Injection: %s" % chosen_guest)
 	
 	current_plan = {
 		"seed": GameRNG.night_seed,
@@ -92,6 +111,10 @@ func _get_weighted_archetypes() -> Array[Dictionary]:
 				
 				# Memory Modifier anwenden
 				if GameManager.npc_memory.has(g_id):
+					var last_seen = GameManager.npc_memory[g_id].get("last_seen_day", -1)
+					if last_seen != -1 and (GameManager.night_index - last_seen) < 2:
+						continue # forced cooldown
+						
 					var outcome = GameManager.npc_memory[g_id].get("last_outcome", "none")
 					if outcome == "perfect":
 						base_weight *= 1.5
