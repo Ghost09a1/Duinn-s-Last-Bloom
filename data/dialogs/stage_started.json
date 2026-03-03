@@ -1,0 +1,15 @@
+{
+    "id": "stage_started",
+    "nodes": {
+        "start": {
+            "speaker": "System",
+            "text": "Barde Barnaby betritt die Bühne und stimmt seine Laute an. Die Gäste horchen auf!",
+            "choices": [
+                {
+                    "text": "Hört, hört!",
+                    "next": "end"
+                }
+            ]
+        }
+    }
+}

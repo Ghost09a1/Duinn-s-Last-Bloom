@@ -1,0 +1,18 @@
+{
+    "start_node": "blocked",
+    "nodes": {
+        "blocked": {
+            "text": "Die Falltür klemmt oder ist von der anderen Seite verriegelt. Vielleicht kannst du sie später öffnen, wenn die Taverne wächst...",
+            "options": [
+                {
+                    "text": "Verstanden",
+                    "next": "end"
+                }
+            ]
+        },
+        "end": {
+            "text": "",
+            "options": []
+        }
+    }
+}

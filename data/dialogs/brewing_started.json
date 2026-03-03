@@ -1,0 +1,15 @@
+{
+    "id": "brewing_started",
+    "nodes": {
+        "start": {
+            "speaker": "System",
+            "text": "Der Brauvorgang wurde gestartet. Das Fass blubbert gemütlich vor sich hin...",
+            "choices": [
+                {
+                    "text": "Wunderbar.",
+                    "next": "end"
+                }
+            ]
+        }
+    }
+}

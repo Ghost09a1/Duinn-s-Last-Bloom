@@ -7,39 +7,63 @@ extends Node3D
 @export var rotation_speed : float = 5.0
 
 @export var fade_speed : float = 5.0
-@export var min_alpha : float = 0.2
+@export var min_alpha : float = 0.0
 
+enum WallMode { UP, CUTAWAY, DOWN }
+var current_wall_mode: WallMode = WallMode.CUTAWAY
+
+var _target_rotation_y: float = 45.0
+var _target_y_offset: float = 0.0
 var _faded_meshes : Dictionary = {} # mesh_rid -> { "node": Node3D, "target_alpha": 1.0, "current_alpha": 1.0, "original_materials": Array }
 
 @onready var cam : Camera3D = $Camera3D
 
 var player : CharacterBody3D
-var _target_y_rot : float = 0.0
+
+# Assuming player_path and cam_path are defined elsewhere, e.g., as @export vars
+@export var player_path: NodePath
+@export var cam_path: NodePath
 
 
 func _ready() -> void:
-	_target_y_rot = rotation.y
+	# Start-Rotation setzen
+	rotation_degrees.y = 45.0
+	_target_rotation_y = 45.0
+	
+	if player_path and player == null:
+		player = get_node_or_null(player_path)
+		
+	if player == null:
+		# Fallback if NodePath fails
+		player = get_node_or_null("/root/TavernPrototype/Player")
+		print("[IsoCamera] Fallback player search used: ", "FOUND" if player else "NOT FOUND")
+	
+	if cam_path and not cam:
+		cam = get_node_or_null(cam_path)
+	
 	if cam == null:
 		push_error("[IsoCamera] Camera3D wurde nicht als Child gefunden!")
 		return
 	cam.current = true
 	
-	# Hole den Player
-	player = get_node_or_null("../Player")
-	if player == null:
-		player = get_node_or_null("/root/TavernPrototype/Player")
+	if player:
+		global_position = player.global_position
+	else:
+		push_error("[IsoCamera] Player-Node wurde NICHT gefunden!")
+
 
 func _process(delta: float) -> void:
-	var move_dir = Vector3.ZERO
-	# Rotation Input
-	if Input.is_action_just_pressed("ui_page_down") or Input.is_physical_key_pressed(KEY_E):
-		_target_y_rot -= PI / 2.0
-	elif Input.is_action_just_pressed("ui_page_up") or Input.is_physical_key_pressed(KEY_Q):
-		_target_y_rot += PI / 2.0
-		
-	# Interpolate Rotation
-	rotation.y = lerp_angle(rotation.y, _target_y_rot, rotation_speed * delta)
+	if not player: return
 	
+	# Rotation glätten
+	rotation_degrees.y = rad_to_deg(lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(_target_rotation_y), rotation_speed * delta))
+	
+	# Player folgen (nur X/Z für harten Iso-Look, oder vollflächig)
+	var target_pos = player.global_position
+	target_pos.y += _target_y_offset
+	global_position = global_position.lerp(target_pos, 10.0 * delta)
+	
+	var move_dir = Vector3.ZERO
 	# Hole Basis für relative Bewegung
 	var cam_basis = global_transform.basis
 	
@@ -62,37 +86,67 @@ func _process(delta: float) -> void:
 		global_position += move_dir * move_speed * delta
 
 	_update_cutaway(delta)
+	_process_fading(delta)
 
-func _update_cutaway(delta: float) -> void:
+func _update_cutaway(_delta: float) -> void:
 	if player == null or cam == null: return
 	
-	var space_state = get_world_3d().direct_space_state
-	var from = cam.global_position
-	# Ray to player slightly above ground
-	var to = player.global_position + Vector3(0, 1.0, 0) 
-	
-	var query = PhysicsRayQueryParameters3D.create(from, to)
-	
-	var exceptions = []
 	var hits = []
 	
-	for i in range(10):
-		query.exclude = exceptions
-		var result = space_state.intersect_ray(query)
-		if result:
-			if result.collider == player:
+	if current_wall_mode == WallMode.UP:
+		# Nichts ausblenden
+		pass
+		
+	elif current_wall_mode == WallMode.DOWN:
+		# Alles in Gruppe 'cutaway_wall' ausblenden
+		hits = get_tree().get_nodes_in_group("cutaway_wall")
+		
+	else: # CUTAWAY (Default)
+		var space_state = get_world_3d().direct_space_state
+		# Start ray far outside to ensure we hit even outer walls
+		var cam_forward = -cam.global_transform.basis.z.normalized()
+		var from = player.global_position - cam_forward * 50.0 
+		var to = player.global_position + Vector3(0, 1.5, 0)
+		
+		var query = PhysicsRayQueryParameters3D.create(from, to)
+		query.collision_mask = 1
+		
+		var exceptions = []
+		
+		# 1. RAYCAST HITS
+		for i in range(10):
+			query.exclude = exceptions
+			var result = space_state.intersect_ray(query)
+			if result:
+				var collider = result.collider
+				if collider == player:
+					break
+					
+				if collider.is_in_group("cutaway_wall"):
+					hits.append(collider)
+				
+				exceptions.append(result.rid)
+			else:
 				break
 				
-			if result.collider.is_in_group("cutaway_wall"):
-				hits.append(result.collider)
-				
-			exceptions.append(result.rid)
-		else:
-			break
+		# 2. POSITION-BASED HIDING
+		var walls = get_tree().get_nodes_in_group("cutaway_wall")
+		var cam_to_player = (player.global_position - cam.global_position).normalized()
+		var cam_dir_2d = Vector2(cam_to_player.x, cam_to_player.z).normalized()
+		
+		for wall in walls:
+			if not wall is Node3D: continue
+			if wall in hits: continue
 			
-	# Update target alphas
+			var to_wall = (wall.global_position - player.global_position)
+			var to_wall_2d = Vector2(to_wall.x, to_wall.z)
+			
+			if to_wall_2d.dot(cam_dir_2d) < -0.1:
+				hits.append(wall)
+
+	# Update target alphas and visibility
 	for mesh_rid in _faded_meshes.keys():
-		_faded_meshes[mesh_rid]["target_alpha"] = 1.0 # default back to visible
+		_faded_meshes[mesh_rid]["target_alpha"] = 1.0
 		
 	for collider in hits:
 		var rid = collider.get_instance_id()
@@ -100,6 +154,7 @@ func _update_cutaway(delta: float) -> void:
 			_setup_mesh_for_fading(collider, rid)
 		_faded_meshes[rid]["target_alpha"] = min_alpha
 		
+func _process_fading(delta: float) -> void:
 	# Process fading
 	var to_erase = []
 	for rid in _faded_meshes.keys():
@@ -152,9 +207,17 @@ func _setup_mesh_for_fading(collider: Node3D, rid: int) -> void:
 	}
 
 func _apply_alpha_to_mesh(_node: Node3D, alpha: float, secondary_mats: Array) -> void:
+	# Absolute cutaway: If alpha is low, we hide the meshes entirely.
+	# This is a foolproof fallback for cases where transparency materials fail.
+	var should_hide = (alpha < 0.9)
 	for slot in secondary_mats:
-		if slot["mat"] != null and is_instance_valid(slot["mesh"]):
-			slot["mat"].albedo_color.a = alpha
+		if is_instance_valid(slot["mesh"]):
+			if should_hide:
+				slot["mesh"].visible = false
+			else:
+				slot["mesh"].visible = true
+				if slot["mat"] != null:
+					slot["mat"].albedo_color.a = alpha
 
 func _restore_mesh_materials(_node: Node3D, original_mats: Array) -> void:
 	for slot in original_mats:
@@ -169,7 +232,33 @@ func _get_all_meshes(node: Node) -> Array[MeshInstance3D]:
 		result.append_array(_get_all_meshes(child))
 	return result
 
+func set_floor_level(level: int) -> void:
+	# 0 = Ground, -1 = Basement
+	if level == -1:
+		_target_y_offset = -4.0
+	else:
+		_target_y_offset = 0.0
+	print("[IsoCamera] Floor Level auf %d gesetzt (Offset: %.1f)" % [level, _target_y_offset])
+
 func _unhandled_input(event: InputEvent) -> void:
+	# 90° Rotation (Q und R, da E für Interaktion reserviert ist)
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_Q:
+			_target_rotation_y += 90.0
+		elif event.keycode == KEY_R:
+			_target_rotation_y -= 90.0
+			
+		# Wall Modes (1, 2, 3)
+		elif event.keycode == KEY_1:
+			current_wall_mode = WallMode.UP
+			print("[IsoCamera] Mode: Walls Up")
+		elif event.keycode == KEY_2:
+			current_wall_mode = WallMode.CUTAWAY
+			print("[IsoCamera] Mode: Cutaway")
+		elif event.keycode == KEY_3:
+			current_wall_mode = WallMode.DOWN
+			print("[IsoCamera] Mode: Walls Down")
+	
 	if cam == null: return
 	
 	if event is InputEventMouseButton:

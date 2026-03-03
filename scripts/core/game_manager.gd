@@ -155,6 +155,12 @@ func get_extra_guests() -> int:
 	if "new_sign" in active_upgrades: e += 1
 	return e
 
+## Reputations-abhängiger Puffer: Hoher Ruf = Gäste warten etwas länger (Respekt)
+func get_reputation_bonus() -> float:
+	# Pro 100 Reputation +5% mehr Geduld (Max +50%)
+	var bonus_pct = clampf(float(reputation) / 1000.0, 0, 0.5)
+	return 1.0 + bonus_pct
+
 var _events : Array[String] = []
 const MAX_EVENTS = 10
 
@@ -316,9 +322,9 @@ func _run_boot_validator() -> void:
 		push_error("[Validator] FAILED mit %d Fehlern!" % errors)
 
 
-func register_spawner(spawner: Node) -> void:
+func register_spawner(k_spawner: Node) -> void:
 	"""Wird vom GuestSpawner aus _ready() aufgerufen – auch nach Szenen-Reload."""
-	_spawner = spawner
+	spawner = k_spawner
 	phase = Phase.IN_NIGHT
 	ScoreSystem.reset()
 	print("[GameManager] Nacht %d startet. (Geld: %dG)" % [night_index, global_money])
@@ -369,6 +375,10 @@ func restart_night() -> void:
 	var farming_logs = FarmingSystem.process_growth()
 	for msg in farming_logs:
 		log_event(msg)
+		
+	# Room Rental
+	if "RoomManager" in get_node("/root"):
+		get_node("/root/RoomManager").collect_rent()
 		
 	# Resets für die neue Nacht
 	room_applicants.clear()
@@ -432,7 +442,7 @@ func get_event_log() -> Array[String]:
 	return _events
 
 
-var _spawner : Node = null
+var spawner : Node = null
 
 # ── Zimmer-Logik (Tageswechsel) ──────────────────────────────
 func process_rooms(night_summary: Dictionary) -> void:

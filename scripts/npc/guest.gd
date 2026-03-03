@@ -1,4 +1,4 @@
-extends Node3D
+extends CharacterBody3D
 
 ## Repräsentiert einen einzelnen Gast.
 ## Daten kommen per setup() rein, Zustände werden intern verwaltet.
@@ -31,7 +31,10 @@ var wants_food  : bool = false
 @export var flags_on_fail   : Array = []
 
 # ── Zustand ─────────────────────────────────────────────────
-enum State { ENTERING, SEATED, WAITING_FOR_SERVICE, TALKING, SERVED, LEAVING }
+enum State { ENTERING, SEATED, WAITING_FOR_SERVICE, TALKING, SERVED, 	LEAVING,
+	SOCIALIZING,
+	WATCHING
+}
 var state : State = State.ENTERING
 
 signal guest_done(guest: Node3D)  ## Wird gefeuert wenn der Gast geht
@@ -41,6 +44,13 @@ signal guest_done(guest: Node3D)  ## Wird gefeuert wenn der Gast geht
 @onready var state_label  : Label3D = $StateLabel
 @onready var patience_label: Label3D= $PatienceLabel
 @onready var timer        : Timer   = $PatienceTimer
+@onready var nav_agent    : NavigationAgent3D = $NavigationAgent3D
+@onready var social_timer : Timer = Timer.new()
+
+@export var movement_speed : float = 4.0
+
+var _target_pos : Vector3 = Vector3.ZERO
+var _moving : bool = false
 
 
 func _ready() -> void:
@@ -48,16 +58,21 @@ func _ready() -> void:
 	patience_label.visible = false
 	_update_state_label()
 	_apply_random_skin()
+	
+	add_child(social_timer)
+	social_timer.one_shot = true
+	social_timer.timeout.connect(_on_socialize_tick)
+	
 	_enter()
 
 
 # ── Skin ─────────────────────────────────────────────────────
 const SKINS : Array = [
-	"res://assets/characters/criminalMaleA.png",
-	"res://assets/characters/cyborgFemaleA.png",
-	"res://assets/characters/skaterFemaleA.png",
 	"res://assets/characters/skaterMaleA.png",
 ]
+
+const SHOUTS = ["Prost!", "Lecker!", "Mjam!", "Hehe!", "Prost!", "Nett hier."]
+const PERFORMANCE_EMOJIS = ["🎵", "🎶", "👏"]
 
 func _apply_random_skin() -> void:
 	var char_model : Node = get_node_or_null("CharacterModel")
@@ -89,7 +104,7 @@ func _find_mesh(node: Node) -> MeshInstance3D:
 func _process(_delta: float) -> void:
 	if state == State.WAITING_FOR_SERVICE and timer.time_left > 0:
 		patience_label.visible = true
-		var p_ratio = timer.time_left / patience
+		var p_ratio = timer.time_left / timer.wait_time
 		patience_label.text = "Geduld: %d%%" % int(p_ratio * 100)
 		
 		# Farbcodierung
@@ -103,6 +118,109 @@ func _process(_delta: float) -> void:
 			patience_label.modulate = Color("f44336").lerp(Color.WHITE, blink * 0.5)
 	else:
 		patience_label.visible = false
+
+func _physics_process(_delta: float) -> void:
+	if not _moving or nav_agent.is_navigation_finished():
+		if _moving:
+			_on_target_reached()
+		return
+	
+	var next_path_pos: Vector3 = nav_agent.get_next_path_position()
+	var current_pos: Vector3 = global_position
+	var new_velocity: Vector3 = (next_path_pos - current_pos).normalized() * movement_speed
+	
+	velocity = new_velocity
+	move_and_slide()
+	
+	# Drehen in Laufrichtung
+	if velocity.length() > 0.1:
+		var look_target = global_position + velocity
+		look_target.y = global_position.y
+		look_at(look_target, Vector3.UP)
+		rotate_object_local(Vector3.UP, PI) # Da CharacterModel nach hinten schaut (180 Grad)
+
+func set_target(pos: Vector3) -> void:
+	_target_pos = pos
+	_moving = true
+	nav_agent.target_position = pos
+
+func _on_target_reached() -> void:
+	_moving = false
+	velocity = Vector3.ZERO
+	print("[Guest] %s hat Ziel erreicht." % display_name)
+	
+	match state:
+		State.ENTERING:
+			_set_state(State.WAITING_FOR_SERVICE)
+		State.SERVED:
+			if state == State.SOCIALIZING:
+				_on_socialize_tick()
+			elif state == State.WATCHING:
+				_on_watching_tick()
+		State.LEAVING:
+			guest_done.emit(self)
+			queue_free()
+
+func _start_socializing() -> void:
+	# Verweildauer am Tisch (z.B. 15-30 Sekunden)
+	var duration = _rng.randf_range(15.0, 30.0)
+	get_tree().create_timer(duration).timeout.connect(_leave)
+	_on_socialize_tick()
+
+func _on_socialize_tick() -> void:
+	if state != State.SOCIALIZING:
+		return
+		
+	# Wechsel Emoji zufällig oder zeige Shout
+	if _rng.randf() > 0.7:
+		# Shout!
+		if state_label:
+			state_label.text = SHOUTS[_rng.randi() % SHOUTS.size()]
+	else:
+		# Emoji!
+		var emotes = ["🥣", "🍺", "💬", "😋", "😴", "🎵"]
+		if state_label:
+			state_label.text = emotes[_rng.randi() % emotes.size()]
+	
+	_animate_label()
+	social_timer.start(randf_range(3.0, 6.0))
+
+func _on_watching_tick() -> void:
+	# Wenn jemand performt, zeigen wir Musiknoten
+	if randf() < 0.7:
+		state_label.text = PERFORMANCE_EMOJIS.pick_random()
+	else:
+		state_label.text = ""
+	
+	_animate_label()
+	social_timer.start(randf_range(2.0, 4.0))
+
+func _animate_label() -> void:
+	if not state_label: return
+	if state_label.text == "": return
+	
+	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	state_label.scale = Vector3(0.5, 0.5, 0.5)
+	tween.tween_property(state_label, "scale", Vector3(1.2, 1.2, 1.2), 0.2)
+	tween.tween_property(state_label, "scale", Vector3(1.0, 1.0, 1.0), 0.1)
+
+func show_gold_popup(amount: int) -> void:
+	# Goldene Zahl die nach oben schwebt
+	var label = Label3D.new()
+	label.text = "+%dG" % amount
+	label.modulate = Color(1.0, 0.84, 0.0) # Gold
+	label.billboard = 1 # Viewport
+	label.font_size = 48
+	add_child(label)
+	label.position = Vector3(0, 2, 0)
+	
+	var tween = create_tween()
+	tween.tween_property(label, "position:y", 3.0, 1.0)
+	tween.parallel().tween_property(label, "modulate:a", 0.0, 1.0)
+	tween.tween_callback(label.queue_free)
+	
+	if "AudioManager" in get_node("/root"):
+		get_node("/root/AudioManager").play_sfx("coin")
 
 var _rng := RandomNumberGenerator.new()
 
@@ -156,9 +274,13 @@ func _on_dialog_ended(player: CharacterBody3D) -> void:
 	# Wenn noch nicht bedient, zurück auf WAITING und starte JETZT erst den Timer
 	if state == State.TALKING:
 		_set_state(State.WAITING_FOR_SERVICE)
-		# Timer erst nach Bestellung starten!
-		timer.start(patience)
-		print("[Guest] %s: Bestellung aufgenommen. Timer gestartet: %.0f sek." % [display_name, patience])
+		
+		var effective_patience = patience
+		if GameManager.has_method("get_reputation_bonus"):
+			effective_patience *= GameManager.get_reputation_bonus()
+			
+		timer.start(effective_patience)
+		print("[Guest] %s: Bestellung aufgenommen. Timer: %.0f (Base: %.0f)" % [display_name, effective_patience, patience])
 
 
 func on_served(item: String) -> void:
@@ -206,8 +328,21 @@ func on_served(item: String) -> void:
 		state_label.modulate = Color(0.2, 1.0, 0.2) if mood_delta >= 1 else Color(1.0, 0.2, 0.2)
 	
 	_set_state(State.SERVED)
-	await get_tree().create_timer(2.0).timeout
-	_leave()
+	
+	# -- NPC FLOW: Release Bar, find Seat --
+	var spawner = GameManager.spawner
+	if spawner:
+		var current_spot = spawner.get_spot_of_guest(self)
+		if current_spot:
+			spawner.release_spot(current_spot)
+		
+		var seat = spawner.request_spot("guest_seats", self)
+		if seat:
+			set_target(seat.global_position)
+		else:
+			# Kein Sitzplatz? Dann direkt gehen
+			await get_tree().create_timer(1.0).timeout
+			_leave()
 
 
 func _get_item_tags(item_id: String) -> Array:
@@ -241,18 +376,41 @@ func _enter() -> void:
 	print("[Guest] %s betritt die Taverne." % display_name)
 	GameManager.log_event("Gast betreten: %s" % display_name)
 	_set_state(State.ENTERING)
-	await get_tree().create_timer(1.0).timeout
-	_set_state(State.WAITING_FOR_SERVICE)
-	# Timer startet NICHT hier! Er startet nach dem ersten Dialog (nach Bestellaufnahme).
+	
+	# Finde einen freien Queue Spot (wird später vom Spawner präzisiert)
+	# Hier für den Anfang: Zufälliger bar_queue Spot
+	var spots = get_tree().get_nodes_in_group("bar_queue")
+	if spots.size() > 0:
+		set_target(spots[0].global_position) # Hack: Erster Spot (Spawner wird das regeln)
 
+func apply_rush_penalty() -> void:
+	"""Wird aufgerufen wenn die Bar zu voll ist."""
+	patience *= 0.7 # 30% weniger Geduld
+	if timer.time_left > 0:
+		var new_time = timer.time_left * 0.7
+		timer.start(new_time)
+	print("[Guest] %s ist genervt von der Schlange. Neue Geduld: %.0fs" % [display_name, patience])
 
 func _leave() -> void:
 	print("[Guest] %s verlässt die Taverne. Mood: %d" % [display_name, mood])
 	GameManager.log_event("Gast gegangen: %s (Mood: %d)" % [display_name, mood])
 	_set_state(State.LEAVING)
-	await get_tree().create_timer(1.0).timeout
-	guest_done.emit(self)
-	queue_free()
+	
+	# Spot freigeben
+	var spawner = GameManager.spawner
+	if spawner:
+		var spot = spawner.get_spot_of_guest(self)
+		if spot:
+			spawner.release_spot(spot)
+	
+	var exit = get_node_or_null("/root/TavernPrototype/NPCNavigation/ExitMarker")
+	if exit:
+		set_target(exit.global_position)
+	else:
+		# Fallback falls kein Marker
+		await get_tree().create_timer(1.0).timeout
+		guest_done.emit(self)
+		queue_free()
 
 
 func _set_state(new_state: State) -> void:
@@ -286,6 +444,8 @@ func _update_state_label() -> void:
 			state_label.modulate = Color(0.6, 0.8, 1.0)
 		State.SERVED:
 			pass # Wird in on_served mit Reactions (😡/😄) gesetzt
+		State.SOCIALIZING:
+			pass # Wird in _on_socialize_tick gesetzt
 		State.LEAVING:
 			state_label.text = "🚪"
 			state_label.modulate = Color(0.5, 0.5, 0.5)

@@ -40,6 +40,17 @@ func start(dialog_path: String, guest: Node, extra_context: Dictionary = {}) -> 
 	_show_current()
 
 
+func start_custom(data: Dictionary) -> void:
+	"""Startet einen Dialog direkt aus einem Dictionary (ohne Datei)."""
+	_guest = null
+	_extra = {}
+	_data = data
+	_nodes = _data.get("nodes", {})
+	_current = "start"
+	dialog_started.emit()
+	_show_current()
+
+
 func choose(index: int) -> void:
 	"""Verarbeitet eine Auswahl des Spielers."""
 	var node : Dictionary = _nodes.get(_current, {})
@@ -71,7 +82,18 @@ func choose(index: int) -> void:
 		var q_id = choice.get("quest_id", "")
 		if q_id != "":
 			QuestManager.accept_quest(q_id)
-		# Dialog geht meistens weiter oder endet danach
+
+	if action == "rent_room":
+		var rm = get_node_or_null("/root/RoomManager")
+		if rm:
+			var room_id = rm.get_available_room_id()
+			if room_id != "":
+				rm.assign_room(room_id, _guest.name if _guest else "anonymous")
+				print("[Dialog] Zimmer gemietet!")
+				if _guest and _guest.has_method("leave_tavern"):
+					_guest.leave_tavern() # NPC geht schlafen/nach Hause
+			else:
+				print("[Dialog] Keine Zimmer frei!")
 
 	if next == "end" or next.is_empty() or not _nodes.has(next):
 		print("[Dialog] Dialog beendet.")

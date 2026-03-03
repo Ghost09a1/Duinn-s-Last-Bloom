@@ -37,6 +37,12 @@ EndNightUI="*res://scenes/ui/EndNightUI.tscn"
 DebugUI="*res://scenes/ui/DebugUI.tscn"
 SecuritySystem="*res://scripts/systems/security_system.gd"
 QuestManager="*res://scripts/systems/quest_manager.gd"
+BrewingSystem="*res://scripts/systems/brewing_system.gd"
+Dumbwaiter="*res://scripts/systems/dumbwaiter.gd"
+PerformanceSystem="*res://scripts/systems/performance_system.gd"
+RoomManager="*res://scripts/systems/room_manager.gd"
+AudioManager="*res://scripts/systems/audio_manager.gd"
+PortalManager="*res://scripts/systems/portal_manager.gd"
 
 [display]
 

@@ -1,0 +1,29 @@
+{
+    "id": "guest_archmage",
+    "nodes": {
+        "start": {
+            "text": "Erzmagier: Ein Riss in den Dimensionen... und er führt in eine Taverne? Faszinierend. Hast du etwas, das den Durst der Leere stillen kann?",
+            "choices": [
+                {
+                    "text": "Ich werde Euch etwas zubereiten.",
+                    "next": "end",
+                    "action": "end_conversation"
+                },
+                {
+                    "text": "Die Leere? Wer seid Ihr?",
+                    "next": "lore"
+                }
+            ]
+        },
+        "lore": {
+            "text": "Erzmagier: Ein Reisender zwischen den Welten. Euer Portal ist ein seltenes Phänomen. Ich zahle gut für passende Erfrischungen.",
+            "choices": [
+                {
+                    "text": "Verstanden, ich bereite etwas vor.",
+                    "next": "end",
+                    "action": "end_conversation"
+                }
+            ]
+        }
+    }
+}

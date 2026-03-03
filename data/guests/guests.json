@@ -411,5 +411,45 @@
             1,
             2
         ]
+    },
+    "archmage_void": {
+        "display_name": "Erzmagier der Leere",
+        "requested_item": "void_essence",
+        "requested_intent": [
+            "magical",
+            "cold"
+        ],
+        "size_pref": "any",
+        "wallet": 500,
+        "tip_pool": [
+            "void_shard"
+        ],
+        "dialog_root_id": "guest_archmage",
+        "patience": 120.0,
+        "tags": [
+            "vip",
+            "magical",
+            "outsider"
+        ],
+        "flags_on_success": [
+            "portal_unlocked_secret"
+        ],
+        "flags_on_fail": [],
+        "likes": [
+            "magical",
+            "cold",
+            "fancy"
+        ],
+        "dislikes": [
+            "warm",
+            "cheap"
+        ],
+        "quirk": "enigmatic",
+        "wants_room_chance": 0.1,
+        "room_budget_per_week": 500,
+        "stay_duration_days": [
+            3,
+            7
+        ]
     }
 }

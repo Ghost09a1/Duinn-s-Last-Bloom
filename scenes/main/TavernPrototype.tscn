@@ -1,38 +1,112 @@
-[gd_scene load_steps=46 format=3 uid="uid://tavernprototype"]
+[gd_scene format=3 uid="uid://bmdgepf0anofq"]
 
 [ext_resource type="PackedScene" uid="uid://playerscene" path="res://scenes/player/Player.tscn" id="1_player"]
-[ext_resource type="Script" path="res://scripts/systems/interaction_system.gd" id="2_interact"]
+[ext_resource type="Script" uid="uid://c6ni62ylmioj7" path="res://scripts/systems/station_interactable.gd" id="2_station"]
 [ext_resource type="PackedScene" uid="uid://guestscene" path="res://scenes/npc/Guest.tscn" id="3_guest"]
-[ext_resource type="Script" path="res://scripts/npc/guest_spawner.gd" id="4_spawner"]
+[ext_resource type="Script" uid="uid://dkq8tebgqr8gq" path="res://scripts/npc/guest_spawner.gd" id="4_spawner"]
 [ext_resource type="PackedScene" uid="uid://dialogui" path="res://scenes/ui/DialogUI.tscn" id="5_dialogui"]
 [ext_resource type="PackedScene" uid="uid://inventoryui" path="res://scenes/ui/InventoryUI.tscn" id="5_invui"]
-
-[ext_resource type="PackedScene" path="res://assets/dungeon/floor.glb" id="d_floor"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/floor-detail.glb" id="d_floor2"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/wall.glb" id="d_wall"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/wall-opening.glb" id="d_wall_open"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/column.glb" id="d_column"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/barrel.glb" id="d_barrel"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/chest.glb" id="d_chest"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/banner.glb" id="d_banner"]
-[ext_resource type="PackedScene" path="res://assets/dungeon/wood-structure.glb" id="d_wood"]
-
-[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/tableCross.glb" id="f_table"]
-[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/chair.glb" id="f_chair"]
-[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/benchCushion.glb" id="f_bench"]
-[ext_resource type="PackedScene" path="res://assets/tavern_props/furniture/stoolBar.glb" id="f_stool"]
-[ext_resource type="PackedScene" path="res://assets/tavern_props/food/cocktail.glb" id="f_cocktail"]
-[ext_resource type="PackedScene" path="res://assets/tavern_props/food/bowl-soup.glb" id="f_soup"]
-[ext_resource type="PackedScene" path="res://assets/tavern_props/food/mug.glb" id="f_mug"]
-
-[ext_resource type="Script" path="res://scripts/systems/interaction_system.gd" id="2b_interact"]
-[ext_resource type="PackedScene" uid="uid://b5s5x1z2y7v3e" path="res://scenes/core/IsoCamera.tscn" id="6_isocam"]
-[ext_resource type="Script" path="res://scripts/npc/staff_spawner.gd" id="7_staffspawn"]
+[ext_resource type="PackedScene" uid="uid://b5s5x102y7v3e" path="res://scenes/core/IsoCamera.tscn" id="6_isocam"]
+[ext_resource type="Script" uid="uid://dfxd2n6ee3lvx" path="res://scripts/npc/staff_spawner.gd" id="7_staffspawn"]
 [ext_resource type="PackedScene" uid="uid://staffmember" path="res://scenes/npc/StaffMember.tscn" id="8_staffmem"]
-[ext_resource type="Script" path="res://scripts/systems/minigame_trigger.gd" id="10_mgtrigger"]
-[ext_resource type="PackedScene" uid="uid://cleaningminigame" path="res://scenes/ui/CleaningMinigame.tscn" id="11_cleanui"]
-[ext_resource type="PackedScene" uid="uid://birdstower" path="res://scenes/ui/BirdsTowerMinigame.tscn" id="12_towerui"]
-[ext_resource type="Script" path="res://scripts/systems/auto_dither.gd" id="99_autodither"]
+[ext_resource type="Script" uid="uid://bs6mj557qkwgf" path="res://scripts/npc/quest_npc_manager.gd" id="13_questnpc"]
+[ext_resource type="Script" uid="uid://bv7ixdxwx01p1" path="res://scripts/systems/inn_tier_manager.gd" id="14_tierman"]
+[ext_resource type="PackedScene" uid="uid://dtwh6cun74w62" path="res://assets/dungeon/banner.glb" id="d_banner"]
+[ext_resource type="PackedScene" uid="uid://bvfdqlb5xg8on" path="res://assets/dungeon/barrel.glb" id="d_barrel"]
+[ext_resource type="PackedScene" uid="uid://cq0rrqkvimpu8" path="res://assets/dungeon/chest.glb" id="d_chest"]
+[ext_resource type="PackedScene" uid="uid://eipmwhwsxsl" path="res://assets/dungeon/column.glb" id="d_column"]
+[ext_resource type="PackedScene" uid="uid://b2jwtakshwshb" path="res://assets/dungeon/wood-structure.glb" id="d_wood"]
+[ext_resource type="PackedScene" uid="uid://bsulwkshp1p5" path="res://Ablage/Kenny_retro-medieval-kit/Models/GLB format/barrels.glb" id="f_barrels"]
+[ext_resource type="PackedScene" uid="uid://ys5wscvrcaa3" path="res://assets/tavern_props/furniture/chair.glb" id="f_chair"]
+[ext_resource type="PackedScene" uid="uid://4y5oc6quonu3" path="res://assets/tavern_props/food/cocktail.glb" id="f_cocktail"]
+[ext_resource type="PackedScene" uid="uid://c85dysd3mmxv6" path="res://Ablage/Kenny_retro-medieval-kit/Models/GLB format/fence-wood.glb" id="f_fence"]
+[ext_resource type="PackedScene" uid="uid://dqsogglvwh48b" path="res://assets/tavern_props/food/mug.glb" id="f_mug"]
+[ext_resource type="PackedScene" uid="uid://dnooigr66jgs4" path="res://assets/tavern_props/furniture/bookcaseOpen.glb" id="f_shelf"]
+[ext_resource type="PackedScene" uid="uid://c0o45ulyb0qfi" path="res://assets/tavern_props/food/bowl-soup.glb" id="f_soup"]
+[ext_resource type="PackedScene" uid="uid://c7a37l5w6jpg" path="res://assets/tavern_props/furniture/stoolBar.glb" id="f_stool"]
+[ext_resource type="PackedScene" uid="uid://dwie6p7km72ss" path="res://Ablage/kenney_furniture-kit/Models/GLTF format/kitchenStove.glb" id="f_stove"]
+[ext_resource type="PackedScene" uid="uid://dbj17rhmpdk4w" path="res://assets/tavern_props/furniture/tableCross.glb" id="f_table"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_tavern"]
+geometry_collision_mask = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(20, 0.2, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_N_side"]
+size = Vector3(5, 4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.28, 0.25, 0.22, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_N_side"]
+size = Vector3(5, 4, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_N"]
+size = Vector3(22, 4, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_N"]
+size = Vector3(22, 4, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_EW"]
+size = Vector3(0.5, 4, 22)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_EW"]
+size = Vector3(0.5, 4, 22)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kitchen"]
+size = Vector2(12, 4)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.22, 0.2, 0.18, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_kitchen_floor"]
+size = Vector3(12, 0.2, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_EW_Kitchen"]
+size = Vector3(0.4, 4, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_EW_Kitchen"]
+size = Vector3(0.4, 4, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_station"]
+size = Vector3(1.5, 0.8, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_trapdoor"]
+size = Vector3(1.2, 0.1, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tresen"]
+albedo_color = Color(0.25, 0.15, 0.08, 1)
+roughness = 0.9
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_zone"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_zone_med"]
+transparency = 1
+albedo_color = Color(0.8, 0.8, 0.2, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_trapdoor"]
+albedo_color = Color(0.18, 0.12, 0.06, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_zone_high"]
+transparency = 1
+albedo_color = Color(0.2, 0.8, 0.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_tresen"]
+size = Vector3(7, 1, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tresen"]
+size = Vector3(7, 1, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_zone_low"]
+transparency = 1
+albedo_color = Color(0.8, 0.2, 0.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_portal_interact"]
+size = Vector3(2, 3, 2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+size = Vector2(20, 20)
 
 [sub_resource type="Environment" id="Env_tavern"]
 background_mode = 1
@@ -42,312 +116,851 @@ ambient_light_color = Color(0.6, 0.5, 0.4, 1)
 ambient_light_energy = 0.7
 tonemap_mode = 2
 
-[sub_resource type="BoxShape3D" id="BoxShape_floor"]
-size = Vector3(12.0, 0.2, 12.0)
-
-[sub_resource type="BoxMesh" id="BoxMesh_tresen"]
-size = Vector3(7.0, 1.0, 0.7)
-
-[sub_resource type="BoxShape3D" id="BoxShape_tresen"]
-size = Vector3(7.0, 1.0, 0.7)
-
-[sub_resource type="BoxShape3D" id="BoxShape_station"]
-size = Vector3(1.5, 0.8, 0.8)
-
-[sub_resource type="StandardMaterial3D" id="Mat_tresen"]
-albedo_color = Color(0.25, 0.15, 0.08, 1)
-roughness = 0.9
-
-[sub_resource type="StandardMaterial3D" id="Mat_floor"]
-albedo_color = Color(0.22, 0.20, 0.18, 1)
-roughness = 1.0
-metallic = 0.0
-
-[sub_resource type="StandardMaterial3D" id="Mat_wall"]
-albedo_color = Color(0.28, 0.25, 0.22, 1)
-roughness = 1.0
-metallic = 0.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
-size = Vector2(12.0, 12.0)
-
-[sub_resource type="BoxMesh" id="BoxMesh_wall_N"]
-size = Vector3(12.0, 4.0, 0.4)
-
-[sub_resource type="BoxMesh" id="BoxMesh_wall_EW"]
-size = Vector3(0.4, 4.0, 12.0)
-
-[sub_resource type="BoxShape3D" id="BoxShape_wall_N"]
-size = Vector3(12.0, 4.0, 0.4)
-
-[sub_resource type="BoxShape3D" id="BoxShape_wall_EW"]
-size = Vector3(0.4, 4.0, 12.0)
-
 [sub_resource type="StandardMaterial3D" id="Mat_staff"]
 albedo_color = Color(0.4, 0.6, 0.9, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_staff"]
 material = SubResource("Mat_staff")
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_tavern"]
-geometry_parsed_geometry_type = 2
-geometry_collision_mask = 1
-[node name="TavernPrototype" type="Node3D"]
-script = ExtResource("99_autodither")
+[sub_resource type="PlaneMesh" id="PlaneMesh_path"]
+size = Vector2(2, 4)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="TavernPrototype" type="Node3D" unique_id=183234722]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1982701284]
 transform = Transform3D(0.866, -0.433, 0.25, 0, 0.5, 0.866, -0.5, -0.75, 0.433, 0, 8, 0)
+light_color = Color(1, 0.9, 0.75, 1)
 light_energy = 2.0
-light_color = Color(1.0, 0.9, 0.75, 1)
 shadow_enabled = true
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1451734633]
 navigation_mesh = SubResource("NavigationMesh_tavern")
 
-[node name="FloorCollider" type="StaticBody3D" parent="NavigationRegion3D"]
+[node name="FloorCollider" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1463392962]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/FloorCollider"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/FloorCollider" unique_id=722465945]
 shape = SubResource("BoxShape_floor")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Env_tavern")
+[node name="WallNorthLeft" type="StaticBody3D" parent="NavigationRegion3D" unique_id=860756295 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2, -10)
 
-[node name="IsoCameraContainer" parent="." instance=ExtResource("6_isocam")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallNorthLeft" unique_id=1128791818]
+mesh = SubResource("BoxMesh_wall_N_side")
+surface_material_override/0 = SubResource("Mat_wall")
 
-[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D"]
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallNorthLeft" unique_id=486081681]
+shape = SubResource("BoxShape_wall_N_side")
 
-[node name="FloorMesh" type="MeshInstance3D" parent="NavigationRegion3D/Floor"]
-mesh = SubResource("PlaneMesh_floor")
+[node name="WallNorthRight" type="StaticBody3D" parent="NavigationRegion3D" unique_id=917105745 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 2, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallNorthRight" unique_id=1504006562]
+mesh = SubResource("BoxMesh_wall_N_side")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallNorthRight" unique_id=1812607836]
+shape = SubResource("BoxShape_wall_N_side")
+
+[node name="WallSouth" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1410449199 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 10)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallSouth" unique_id=2061145403]
+mesh = SubResource("BoxMesh_wall_N")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallSouth" unique_id=1416766737]
+shape = SubResource("BoxShape_wall_N")
+
+[node name="WallWest" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1616643951 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallWest" unique_id=1671145409]
+mesh = SubResource("BoxMesh_wall_EW")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallWest" unique_id=212935128]
+shape = SubResource("BoxShape_wall_EW")
+
+[node name="WallEast" type="StaticBody3D" parent="NavigationRegion3D" unique_id=368257850 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallEast" unique_id=570095462]
+mesh = SubResource("BoxMesh_wall_EW")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallEast" unique_id=201822460]
+shape = SubResource("BoxShape_wall_EW")
+
+[node name="DecoRoot" type="Node3D" parent="NavigationRegion3D" unique_id=1908746273]
+
+[node name="Col_NW" parent="NavigationRegion3D/DecoRoot" unique_id=1312768311 instance=ExtResource("d_column")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="Col_NE" parent="NavigationRegion3D/DecoRoot" unique_id=699704437 instance=ExtResource("d_column")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+
+[node name="Barrel_NW1" parent="NavigationRegion3D/DecoRoot" unique_id=836209581 instance=ExtResource("d_barrel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 0, -3.5)
+
+[node name="Barrel_NW2" parent="NavigationRegion3D/DecoRoot" unique_id=1785380787 instance=ExtResource("d_barrel")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -3.5, 0, -3.2)
+
+[node name="Barrel_NE1" parent="NavigationRegion3D/DecoRoot" unique_id=1108948608 instance=ExtResource("d_barrel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 0, -3.5)
+
+[node name="Banner_W" parent="NavigationRegion3D/DecoRoot" unique_id=1307789480 instance=ExtResource("d_banner")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.8, 2, -1)
+
+[node name="Banner_E" parent="NavigationRegion3D/DecoRoot" unique_id=16717493 instance=ExtResource("d_banner")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.8, 2, -1)
+
+[node name="Chest_SE" parent="NavigationRegion3D/DecoRoot" unique_id=371004627 instance=ExtResource("d_chest")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 4)
+
+[node name="Wood_N" parent="NavigationRegion3D/DecoRoot" unique_id=1363816713 instance=ExtResource("d_wood")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4.5)
+
+[node name="Kitchen" type="StaticBody3D" parent="NavigationRegion3D" unique_id=419225932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+
+[node name="FloorMesh" type="MeshInstance3D" parent="NavigationRegion3D/Kitchen" unique_id=5883462]
+mesh = SubResource("PlaneMesh_kitchen")
 surface_material_override/0 = SubResource("Mat_floor")
 
-[node name="FloorCol" type="CollisionShape3D" parent="NavigationRegion3D/Floor"]
-shape = SubResource("BoxShape_floor")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Kitchen" unique_id=987654321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape_kitchen_floor")
 
-[node name="WallNorth" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6)
+[node name="WallNorth" type="StaticBody3D" parent="NavigationRegion3D/Kitchen" unique_id=2063751410 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallNorth"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kitchen/WallNorth" unique_id=770458595]
 mesh = SubResource("BoxMesh_wall_N")
 surface_material_override/0 = SubResource("Mat_wall")
 
-[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallNorth"]
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Kitchen/WallNorth" unique_id=2081653945]
 shape = SubResource("BoxShape_wall_N")
 
-[node name="WallSouth" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)
-
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallSouth"]
-mesh = SubResource("BoxMesh_wall_N")
-surface_material_override/0 = SubResource("Mat_wall")
-
-[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallSouth"]
-shape = SubResource("BoxShape_wall_N")
-
-[node name="WallWest" type="StaticBody3D" parent="NavigationRegion3D"]
+[node name="WallWest" type="StaticBody3D" parent="NavigationRegion3D/Kitchen" unique_id=123123123 groups=["cutaway_wall"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallWest"]
-mesh = SubResource("BoxMesh_wall_EW")
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kitchen/WallWest" unique_id=123123124]
+mesh = SubResource("BoxMesh_wall_EW_Kitchen")
 surface_material_override/0 = SubResource("Mat_wall")
 
-[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallWest"]
-shape = SubResource("BoxShape_wall_EW")
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Kitchen/WallWest" unique_id=123123125]
+shape = SubResource("BoxShape_wall_EW_Kitchen")
 
-[node name="WallEast" type="StaticBody3D" parent="NavigationRegion3D"]
+[node name="WallEast" type="StaticBody3D" parent="NavigationRegion3D/Kitchen" unique_id=123123126 groups=["cutaway_wall"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/WallEast"]
-mesh = SubResource("BoxMesh_wall_EW")
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kitchen/WallEast" unique_id=123123127]
+mesh = SubResource("BoxMesh_wall_EW_Kitchen")
 surface_material_override/0 = SubResource("Mat_wall")
 
-[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/WallEast"]
-shape = SubResource("BoxShape_wall_EW")
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Kitchen/WallEast" unique_id=123123128]
+shape = SubResource("BoxShape_wall_EW_Kitchen")
 
-[node name="DecoRoot" type="Node3D" parent="NavigationRegion3D"]
+[node name="Stove" parent="NavigationRegion3D/Kitchen" unique_id=1561765457 instance=ExtResource("f_stove")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1.5)
 
-[node name="Col_NW" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_column")]
-transform = Transform3D(1,0,0,0,1,0,0,0,1, -4,0,-4)
-[node name="Col_NE" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_column")]
-transform = Transform3D(1,0,0,0,1,0,0,0,1, 4,0,-4)
+[node name="Shelves" parent="NavigationRegion3D/Kitchen" unique_id=72815643 instance=ExtResource("f_shelf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1.8)
 
-[node name="Barrel_NW1" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_barrel")]
-transform = Transform3D(1,0,0,0,1,0,0,0,1, -4.2,0,-3.5)
-[node name="Barrel_NW2" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_barrel")]
-transform = Transform3D(0.8,0,0,0,0.8,0,0,0,0.8, -3.5,0,-3.2)
-[node name="Barrel_NE1" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_barrel")]
-transform = Transform3D(1,0,0,0,1,0,0,0,1, 4.2,0,-3.5)
+[node name="StationFood" type="StaticBody3D" parent="NavigationRegion3D/Kitchen" unique_id=529326977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.1, -1.2)
+script = ExtResource("2_station")
+station_id = "food_station"
+prompt_text = "[Essen kochen]"
 
-[node name="Banner_W" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_banner")]
-transform = Transform3D(0,0,1,0,1,0,-1,0,0, -4.8,2,-1)
-[node name="Banner_E" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_banner")]
-transform = Transform3D(0,0,-1,0,1,0,1,0,0, 4.8,2,-1)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Kitchen/StationFood" unique_id=457971155]
+shape = SubResource("BoxShape_station")
 
-[node name="Chest_SE" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_chest")]
-transform = Transform3D(1,0,0,0,1,0,0,0,1, 3.5,0,4)
-[node name="Wood_N" parent="NavigationRegion3D/DecoRoot" instance=ExtResource("d_wood")]
-transform = Transform3D(1,0,0,0,1,0,0,0,1, -3,0,-4.5)
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/Kitchen/StationFood" unique_id=1886201542]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Essen kochen]"
 
-[node name="FurnRoot" type="Node3D" parent="NavigationRegion3D"]
+[node name="Signage_Kitchen" type="Label3D" parent="NavigationRegion3D/Kitchen" unique_id=238210333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+text = "KÜCHE"
+font_size = 64
 
-[node name="TresenBase" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -3.5)
+[node name="KitchenLight" type="OmniLight3D" parent="NavigationRegion3D/Kitchen" unique_id=238210334]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+light_color = Color(1, 0.5, 0.2, 1)
+light_energy = 3.0
+omni_range = 10.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TresenBase"]
+[node name="Dumbwaiter_Top" type="StaticBody3D" parent="NavigationRegion3D/Kitchen" unique_id=555666850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, -1.8)
+script = ExtResource("2_station")
+station_id = "dumbwaiter"
+prompt_text = "[Waren entnehmen]"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Kitchen/Dumbwaiter_Top" unique_id=555666851]
+transform = Transform3D(0.8, 0, 0, 0, 1.2, 0, 0, 0, 0.8, 0, 0, 0)
+mesh = SubResource("BoxMesh_trapdoor")
+surface_material_override/0 = SubResource("Mat_tresen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Kitchen/Dumbwaiter_Top" unique_id=555666852]
+shape = SubResource("BoxShape_station")
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/Kitchen/Dumbwaiter_Top" unique_id=555666853]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+text = "SPEISEAUFZUG"
+
+[node name="StockpileMed" type="Area3D" parent="NavigationRegion3D/Kitchen" unique_id=222333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.05, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kitchen/StockpileMed" unique_id=222334]
+mesh = SubResource("PlaneMesh_zone")
+surface_material_override/0 = SubResource("Mat_zone_med")
+
+[node name="Pantry" type="StaticBody3D" parent="NavigationRegion3D" unique_id=2075903806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -12)
+
+[node name="Signage_Pantry" type="Label3D" parent="NavigationRegion3D/Pantry" unique_id=238210335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+text = "VORRATSKAMMER"
+font_size = 64
+
+[node name="PantryLight" type="OmniLight3D" parent="NavigationRegion3D/Pantry" unique_id=238210336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+light_color = Color(0.6, 0.8, 1, 1)
+
+[node name="FloorMesh" type="MeshInstance3D" parent="NavigationRegion3D/Pantry" unique_id=1692228786]
+transform = Transform3D(0.33, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_kitchen")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Pantry" unique_id=876543210]
+transform = Transform3D(0.33, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape_kitchen_floor")
+
+[node name="Trapdoor" type="StaticBody3D" parent="NavigationRegion3D/Pantry" unique_id=1271842754]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("2_station")
+station_id = "trapdoor"
+prompt_text = "[In den Keller gehen]"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Pantry/Trapdoor" unique_id=676429830]
+mesh = SubResource("BoxMesh_trapdoor")
+surface_material_override/0 = SubResource("Mat_trapdoor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Pantry/Trapdoor" unique_id=1497964743]
+shape = SubResource("BoxShape_station")
+
+[node name="Barrels" parent="NavigationRegion3D/Pantry" unique_id=449384537 instance=ExtResource("f_barrels")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 2, 0, 0)
+
+[node name="StorageShelf" parent="NavigationRegion3D/Pantry" unique_id=171362112 instance=ExtResource("f_shelf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0.5)
+
+[node name="WallWest" type="StaticBody3D" parent="NavigationRegion3D/Pantry" unique_id=234234234 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Pantry/WallWest" unique_id=234234235]
+mesh = SubResource("BoxMesh_wall_EW_Kitchen")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Pantry/WallWest" unique_id=234234236]
+shape = SubResource("BoxShape_wall_EW_Kitchen")
+
+[node name="WallEast" type="StaticBody3D" parent="NavigationRegion3D/Pantry" unique_id=234234237 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Pantry/WallEast" unique_id=234234238]
+mesh = SubResource("BoxMesh_wall_EW_Kitchen")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Pantry/WallEast" unique_id=234234239]
+shape = SubResource("BoxShape_wall_EW_Kitchen")
+
+[node name="StockpileHigh" type="Area3D" parent="NavigationRegion3D/Pantry" unique_id=111222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Pantry/StockpileHigh" unique_id=111223]
+mesh = SubResource("PlaneMesh_zone")
+surface_material_override/0 = SubResource("Mat_zone_high")
+
+[node name="QuestNPCs" type="Node3D" parent="NavigationRegion3D" unique_id=815901352]
+
+[node name="QuestNPC_Beatrice" type="Marker3D" parent="NavigationRegion3D/QuestNPCs" unique_id=869680709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -6)
+
+[node name="FurnRoot" type="Node3D" parent="NavigationRegion3D" unique_id=1964059649]
+
+[node name="Stool_1" parent="NavigationRegion3D/FurnRoot" unique_id=90001 instance=ExtResource("f_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -6.8)
+
+[node name="Stool_2" parent="NavigationRegion3D/FurnRoot" unique_id=90002 instance=ExtResource("f_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -6.8)
+
+[node name="Stool_3" parent="NavigationRegion3D/FurnRoot" unique_id=90003 instance=ExtResource("f_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -6.8)
+
+[node name="Stool_4" parent="NavigationRegion3D/FurnRoot" unique_id=90004 instance=ExtResource("f_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -6.8)
+
+[node name="Stool_5" parent="NavigationRegion3D/FurnRoot" unique_id=90005 instance=ExtResource("f_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -6.8)
+
+[node name="Stool_6" parent="NavigationRegion3D/FurnRoot" unique_id=90006 instance=ExtResource("f_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -6.8)
+
+[node name="Table_W" type="Node3D" parent="NavigationRegion3D/FurnRoot" unique_id=90010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+
+[node name="Mesh" parent="NavigationRegion3D/FurnRoot/Table_W" unique_id=90011 instance=ExtResource("f_table")]
+
+[node name="Chair_N" parent="NavigationRegion3D/FurnRoot/Table_W" unique_id=90012 instance=ExtResource("f_chair")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.2)
+
+[node name="Chair_S" parent="NavigationRegion3D/FurnRoot/Table_W" unique_id=90013 instance=ExtResource("f_chair")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1.2)
+
+[node name="Chair_E" parent="NavigationRegion3D/FurnRoot/Table_W" unique_id=90014 instance=ExtResource("f_chair")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.2, 0, 0)
+
+[node name="Chair_W" parent="NavigationRegion3D/FurnRoot/Table_W" unique_id=90015 instance=ExtResource("f_chair")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.2, 0, 0)
+
+[node name="Table_E" type="Node3D" parent="NavigationRegion3D/FurnRoot" unique_id=90020]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="Mesh" parent="NavigationRegion3D/FurnRoot/Table_E" unique_id=90021 instance=ExtResource("f_table")]
+
+[node name="Chair_N" parent="NavigationRegion3D/FurnRoot/Table_E" unique_id=90022 instance=ExtResource("f_chair")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.2)
+
+[node name="Chair_S" parent="NavigationRegion3D/FurnRoot/Table_E" unique_id=90023 instance=ExtResource("f_chair")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1.2)
+
+[node name="Chair_E" parent="NavigationRegion3D/FurnRoot/Table_E" unique_id=90024 instance=ExtResource("f_chair")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.2, 0, 0)
+
+[node name="Chair_W" parent="NavigationRegion3D/FurnRoot/Table_E" unique_id=90025 instance=ExtResource("f_chair")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.2, 0, 0)
+
+[node name="Table_S" type="Node3D" parent="NavigationRegion3D/FurnRoot" unique_id=90030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="Mesh" parent="NavigationRegion3D/FurnRoot/Table_S" unique_id=90031 instance=ExtResource("f_table")]
+
+[node name="Chair_N" parent="NavigationRegion3D/FurnRoot/Table_S" unique_id=90032 instance=ExtResource("f_chair")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.2)
+
+[node name="Chair_S" parent="NavigationRegion3D/FurnRoot/Table_S" unique_id=90033 instance=ExtResource("f_chair")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1.2)
+
+[node name="Chair_E" parent="NavigationRegion3D/FurnRoot/Table_S" unique_id=90034 instance=ExtResource("f_chair")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.2, 0, 0)
+
+[node name="Chair_W" parent="NavigationRegion3D/FurnRoot/Table_S" unique_id=90035 instance=ExtResource("f_chair")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.2, 0, 0)
+
+[node name="TresenBase" type="StaticBody3D" parent="NavigationRegion3D" unique_id=123976541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TresenBase" unique_id=1422629632]
 shape = SubResource("BoxShape_tresen")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/TresenBase"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/TresenBase" unique_id=691988900]
 mesh = SubResource("BoxMesh_tresen")
 surface_material_override/0 = SubResource("Mat_tresen")
 
-[node name="Deco_Barrel_L" parent="NavigationRegion3D/TresenBase" instance=ExtResource("d_barrel")]
-transform = Transform3D(0.8,0,0,0,0.8,0,0,0,0.8, -3.2, 0.6, 0)
-[node name="Deco_Barrel_R" parent="NavigationRegion3D/TresenBase" instance=ExtResource("d_barrel")]
-transform = Transform3D(0.8,0,0,0,0.8,0,0,0,0.8, 3.2, 0.6, 0)
-[node name="Deco_Mug" parent="NavigationRegion3D/TresenBase" instance=ExtResource("f_mug")]
-transform = Transform3D(0.6,0,0,0,0.6,0,0,0,0.6, -1, 0.55, 0)
-[node name="Deco_Cocktail" parent="NavigationRegion3D/TresenBase" instance=ExtResource("f_cocktail")]
-transform = Transform3D(0.6,0,0,0,0.6,0,0,0,0.6, 0.5, 0.55, 0)
-[node name="Deco_Soup" parent="NavigationRegion3D/TresenBase" instance=ExtResource("f_soup")]
-transform = Transform3D(0.6,0,0,0,0.6,0,0,0,0.6, 1.8, 0.55, 0)
+[node name="Deco_Barrel_L" parent="NavigationRegion3D/TresenBase" unique_id=931699734 instance=ExtResource("d_barrel")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -3.2, 0.6, 0)
 
-[node name="StationDrinks" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.1, -3.5)
-script = ExtResource("2_interact")
+[node name="Deco_Barrel_R" parent="NavigationRegion3D/TresenBase" unique_id=466655260 instance=ExtResource("d_barrel")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 3.2, 0.6, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StationDrinks"]
+[node name="Deco_Mug" parent="NavigationRegion3D/TresenBase" unique_id=1761785623 instance=ExtResource("f_mug")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -1, 0.55, 0)
+
+[node name="Deco_Cocktail" parent="NavigationRegion3D/TresenBase" unique_id=2106569323 instance=ExtResource("f_cocktail")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0.5, 0.55, 0)
+
+[node name="Deco_Soup" parent="NavigationRegion3D/TresenBase" unique_id=747791520 instance=ExtResource("f_soup")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 1.8, 0.55, 0)
+
+[node name="StationDrinks" type="StaticBody3D" parent="NavigationRegion3D" unique_id=412377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.1, -7.5)
+script = ExtResource("2_station")
+station_id = "drinks_station"
+prompt_text = "[Drinks mixen]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StationDrinks" unique_id=646888506]
 shape = SubResource("BoxShape_station")
 
-[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/StationDrinks"]
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/StationDrinks" unique_id=1032685260]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
 text = "[Drinks mixen]"
-font_size = 32
 
-[node name="StationFood" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.1, -3.5)
-script = ExtResource("2_interact")
+[node name="Signage_Bar" type="Label3D" parent="NavigationRegion3D/StationDrinks" unique_id=1032685261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.2)
+text = "SCHÄNKE"
+font_size = 64
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StationFood"]
+[node name="BarLight" type="OmniLight3D" parent="NavigationRegion3D/StationDrinks" unique_id=1032685262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.5)
+light_color = Color(1, 0.8, 0.4, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="ServiceBell" type="StaticBody3D" parent="NavigationRegion3D" unique_id=368914956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -7.5)
+script = ExtResource("2_station")
+station_id = "bell"
+prompt_text = "[Klingeln & Servieren]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/ServiceBell" unique_id=441996495]
 shape = SubResource("BoxShape_station")
 
-[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/StationFood"]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
-text = "[Essen kochen]"
-font_size = 32
-
-[node name="ServiceBell" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -3.5)
-script = ExtResource("2_interact")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/ServiceBell"]
-shape = SubResource("BoxShape_station")
-
-[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/ServiceBell"]
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/ServiceBell" unique_id=621724141]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
 text = "[Klingeln & Servieren]"
-font_size = 32
 
-[node name="Player" parent="." instance=ExtResource("1_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
+[node name="BroomStation" type="StaticBody3D" parent="NavigationRegion3D" unique_id=2132872619]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1, 5)
+script = ExtResource("2_station")
+station_id = "minigame_cleaning"
+prompt_text = "[Zimmer putzen]"
 
-[node name="SpawnPoint1" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/BroomStation" unique_id=1138014234]
+shape = SubResource("BoxShape_station")
 
-[node name="SpawnPoint2" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/BroomStation" unique_id=993682370]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Zimmer putzen]"
 
-[node name="SpawnPoint3" type="Marker3D" parent="."]
+[node name="TowerWindow" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1049585128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 1, -8)
+script = ExtResource("2_station")
+station_id = "tower_range"
+prompt_text = "[Bird's Tower]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TowerWindow" unique_id=248885154]
+shape = SubResource("BoxShape_station")
+
+[node name="GardenDoor" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1929692684]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -9.5)
+script = ExtResource("2_station")
+station_id = "garden_door"
+prompt_text = "[Garten betreten]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/GardenDoor" unique_id=1989515879]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/GardenDoor" unique_id=521409304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.4)
+text = "[Garten betreten]"
+
+[node name="FrontDoor" type="StaticBody3D" parent="NavigationRegion3D" unique_id=264909337]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 9.5)
+script = ExtResource("2_station")
+station_id = "front_door"
+prompt_text = "[Tür verwalten]"
+
+[node name="StockpileLow" type="Area3D" parent="NavigationRegion3D/FrontDoor" unique_id=333444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.95, -1)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FrontDoor/StockpileLow" unique_id=333445]
+mesh = SubResource("PlaneMesh_zone")
+surface_material_override/0 = SubResource("Mat_zone_low")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/FrontDoor" unique_id=565748668]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/FrontDoor" unique_id=1155646537]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
+text = "[Tür verwalten]"
+
+[node name="Ledger" type="StaticBody3D" parent="NavigationRegion3D" unique_id=777888999]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6, 1, -6)
+script = ExtResource("2_station")
+station_id = "ledger"
+prompt_text = "[Abrechnung/Tag beenden]"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Ledger" unique_id=777888001]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/Ledger" unique_id=777888002]
+transform = Transform3D(-2, 0, 0, 0, 2, 0, 0, 0, -2, 0, 1, 0)
+text = "[Abrechnung/Tag beenden]"
+
+[node name="ShopBoard" type="StaticBody3D" parent="NavigationRegion3D" unique_id=666555444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.5, 8.5)
+script = ExtResource("2_station")
+station_id = "shop_board"
+prompt_text = "[Ausbau & Upgrades]"
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/ShopBoard" unique_id=666555001]
+shape = SubResource("BoxShape_station")
+
+[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/ShopBoard" unique_id=666555002]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.5, 0)
+text = "[Ausbau & Upgrades]"
+
+[node name="Tier1_Base" type="Node3D" parent="NavigationRegion3D" unique_id=555666900]
+
+[node name="Tier2_Addons" type="Node3D" parent="NavigationRegion3D" unique_id=555666778]
+visible = false
+
+[node name="StageAnchor" type="StaticBody3D" parent="NavigationRegion3D/Tier2_Addons" unique_id=555666779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.1, 6)
+script = ExtResource("2_station")
+station_id = "stage"
+prompt_text = "[Performance starten]"
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/Tier2_Addons/StageAnchor" unique_id=555666780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+text = "THEATERVENE"
+font_size = 64
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Tier2_Addons/StageAnchor" unique_id=555666784]
+shape = SubResource("BoxShape_station")
+
+[node name="StageMesh" type="MeshInstance3D" parent="NavigationRegion3D/Tier2_Addons/StageAnchor" unique_id=555666785]
+transform = Transform3D(2, 0, 0, 0, 0.2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("BoxMesh_trapdoor")
+surface_material_override/0 = SubResource("Mat_tresen")
+
+[node name="Basement_Base" type="Node3D" parent="NavigationRegion3D/Tier2_Addons" unique_id=555666800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -4, -12)
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base" unique_id=555666801]
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/Floor" unique_id=555666802]
+mesh = SubResource("PlaneMesh_kitchen")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/Floor" unique_id=555666803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape_kitchen_floor")
+
+[node name="Wall_N" type="StaticBody3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base" unique_id=555666804 groups=["cutaway_wall"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/Wall_N" unique_id=555666805]
+mesh = SubResource("BoxMesh_wall_EW_Kitchen")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Col" type="CollisionShape3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/Wall_N" unique_id=555666806]
+shape = SubResource("BoxShape_wall_EW_Kitchen")
+
+[node name="BasementSpawn" type="Marker3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base" unique_id=555666810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CellarBarrels" parent="NavigationRegion3D/Tier2_Addons/Basement_Base" unique_id=555666811 instance=ExtResource("f_barrels")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="GuestSpawner" type="Node3D" parent="."]
+[node name="CellarChest" parent="NavigationRegion3D/Tier2_Addons/Basement_Base" unique_id=555666812 instance=ExtResource("d_chest")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Dumbwaiter_Bottom" type="StaticBody3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base" unique_id=555666860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, -1.2)
+script = ExtResource("2_station")
+station_id = "dumbwaiter"
+prompt_text = "[Waren einlegen]"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/Dumbwaiter_Bottom" unique_id=555666861]
+transform = Transform3D(0.8, 0, 0, 0, 1.2, 0, 0, 0, 0.8, 0, 0, 0)
+mesh = SubResource("BoxMesh_trapdoor")
+surface_material_override/0 = SubResource("Mat_tresen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/Dumbwaiter_Bottom" unique_id=555666862]
+shape = SubResource("BoxShape_station")
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/Dumbwaiter_Bottom" unique_id=555666863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+text = "SPEISEAUFZUG"
+
+[node name="BrewingStation" type="StaticBody3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base" unique_id=555666820]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2)
+script = ExtResource("2_station")
+station_id = "brewing_station"
+prompt_text = "[Brauen starten]"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/BrewingStation" unique_id=555666821]
+mesh = SubResource("BoxMesh_trapdoor")
+surface_material_override/0 = SubResource("Mat_tresen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/BrewingStation" unique_id=555666822]
+shape = SubResource("BoxShape_station")
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/Tier2_Addons/Basement_Base/BrewingStation" unique_id=555666823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+text = "BRAUKESSEL"
+font_size = 48
+
+[node name="Tier3_Addons" type="Node3D" parent="NavigationRegion3D" unique_id=555666781]
+visible = false
+
+[node name="Room1_Anchor" type="Marker3D" parent="NavigationRegion3D/Tier3_Addons" unique_id=555666782]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 5, 0)
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/Tier3_Addons/Room1_Anchor" unique_id=555666783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+text = "GÄSTEZIMMER 1"
+font_size = 48
+
+[node name="Room2_Anchor" type="Marker3D" parent="NavigationRegion3D/Tier3_Addons" unique_id=555666786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 5, 0)
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/Tier3_Addons/Room2_Anchor" unique_id=555666787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+text = "GÄSTEZIMMER 2"
+font_size = 48
+
+[node name="PortalAnchor" type="Node3D" parent="NavigationRegion3D/Tier3_Addons" unique_id=499195390]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.1, 8.5)
+
+[node name="PortalLight" type="OmniLight3D" parent="NavigationRegion3D/Tier3_Addons/PortalAnchor" unique_id=555666789]
+light_color = Color(0, 0.6, 1, 1)
+light_energy = 0.0
+
+[node name="Portal" type="StaticBody3D" parent="NavigationRegion3D/Tier3_Addons/PortalAnchor" unique_id=555666790]
+collision_layer = 2
+script = ExtResource("2_station")
+station_id = "portal"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Tier3_Addons/PortalAnchor/Portal" unique_id=555666791]
+shape = SubResource("BoxShape3D_portal_interact")
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/Tier3_Addons/PortalAnchor" unique_id=555666792]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+text = "DORMANT PORTAL"
+font_size = 48
+
+[node name="NavigationRegion3D_Tier1_Base#Floor" type="StaticBody3D" parent="." unique_id=1114280247]
+
+[node name="NavigationRegion3D_Tier1_Base_Floor#FloorMesh" type="MeshInstance3D" parent="." unique_id=1845636826]
+mesh = SubResource("PlaneMesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="NavigationRegion3D_Tier1_Base_Floor#FloorCol" type="CollisionShape3D" parent="." unique_id=1499334215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape_floor")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1552784149]
+environment = SubResource("Env_tavern")
+
+[node name="IsoCameraContainer" parent="." unique_id=2087307304 instance=ExtResource("6_isocam")]
+
+[node name="Player" parent="." unique_id=1478090743 instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
+
+[node name="SpawnPoint1" type="Marker3D" parent="." unique_id=2082370089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 12)
+
+[node name="SpawnPoint2" type="Marker3D" parent="." unique_id=690915343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13)
+
+[node name="SpawnPoint3" type="Marker3D" parent="." unique_id=52755063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 12)
+
+[node name="QuestNPCManager" type="Node3D" parent="." unique_id=1167247866]
+script = ExtResource("13_questnpc")
+
+[node name="GuestSpawner" type="Node3D" parent="." unique_id=14972861]
 script = ExtResource("4_spawner")
 guest_scene = ExtResource("3_guest")
 
-[node name="DialogUI" parent="." instance=ExtResource("5_dialogui")]
+[node name="DialogUI" parent="." unique_id=1943682967 instance=ExtResource("5_dialogui")]
 
-[node name="InventoryUI" parent="." instance=ExtResource("5_invui")]
+[node name="InventoryUI" parent="." unique_id=325507498 instance=ExtResource("5_invui")]
 
-[node name="Bartender_Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.0, -4.5)
+[node name="Bartender_Mesh" type="MeshInstance3D" parent="." unique_id=238072235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, -4.5)
 visible = false
 mesh = SubResource("CapsuleMesh_staff")
 
-[node name="Cleaner_Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.0, 4.5)
+[node name="Cleaner_Mesh" type="MeshInstance3D" parent="." unique_id=609365068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1, 4.5)
 visible = false
 mesh = SubResource("CapsuleMesh_staff")
 
-[node name="Bouncer_Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.0, 4.5)
+[node name="Bouncer_Mesh" type="MeshInstance3D" parent="." unique_id=360883529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1, 4.5)
 visible = false
 mesh = SubResource("CapsuleMesh_staff")
 
-[node name="StaffSpawner" type="Node3D" parent="."]
+[node name="StaffSpawner" type="Node3D" parent="." unique_id=195469875]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 script = ExtResource("7_staffspawn")
 staff_scene = ExtResource("8_staffmem")
 
-[node name="BroomStation" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1, 5)
-script = ExtResource("10_mgtrigger")
-minigame_scene = ExtResource("11_cleanui")
-prompt_text = "[Zimmer Putzen]"
+[node name="Exterior" type="Node3D" parent="." unique_id=614265251]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/BroomStation"]
+[node name="PathToGarden" type="MeshInstance3D" parent="Exterior" unique_id=914895839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.01, -12)
+mesh = SubResource("PlaneMesh_path")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="PathToTower" type="MeshInstance3D" parent="Exterior" unique_id=1427105744]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8, 0.01, -8)
+mesh = SubResource("PlaneMesh_path")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="YardFence" type="Node3D" parent="Exterior" unique_id=1147349799]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
+
+[node name="Fence1" parent="Exterior/YardFence" unique_id=675228354 instance=ExtResource("f_fence")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="Fence2" parent="Exterior/YardFence" unique_id=969916719 instance=ExtResource("f_fence")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Fence3" parent="Exterior/YardFence" unique_id=1104713295 instance=ExtResource("f_fence")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Fence4" parent="Exterior/YardFence" unique_id=1233856796 instance=ExtResource("f_fence")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="Outhouse" type="StaticBody3D" parent="Exterior" unique_id=555444333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.5, 9.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Exterior/Outhouse" unique_id=555444334]
+mesh = SubResource("BoxMesh_wall_N_side")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Label3D" type="Label3D" parent="Exterior/Outhouse" unique_id=555444335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.4)
+text = "Aborthäuschen"
+font_size = 48
+
+[node name="GardenPlots" type="Node3D" parent="Exterior" unique_id=444333222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.1, -12)
+
+[node name="Plot0" type="StaticBody3D" parent="Exterior/GardenPlots" unique_id=444333223]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.5, 0)
+script = ExtResource("2_station")
+station_id = "garden_plot_0"
+prompt_text = "[Beet 1 verwalten]"
+
+[node name="Col" type="CollisionShape3D" parent="Exterior/GardenPlots/Plot0" unique_id=444333224]
 shape = SubResource("BoxShape_station")
 
-[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/BroomStation"]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
-text = "[Zimmer putzen]"
-font_size = 32
+[node name="Label" type="Label3D" parent="Exterior/GardenPlots/Plot0" unique_id=444333225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+text = "Gartenbeet 1"
 
-[node name="TowerWindow" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1, -5)
-script = ExtResource("10_mgtrigger")
-minigame_scene = ExtResource("12_towerui")
-prompt_text = "[Bird's Tower]"
+[node name="Plot1" type="StaticBody3D" parent="Exterior/GardenPlots" unique_id=444333226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("2_station")
+station_id = "garden_plot_1"
+prompt_text = "[Beet 2 verwalten]"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/TowerWindow"]
+[node name="Col" type="CollisionShape3D" parent="Exterior/GardenPlots/Plot1" unique_id=444333227]
 shape = SubResource("BoxShape_station")
 
-[node name="GardenDoor" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -5.5)
-script = ExtResource("2_interact")
-station_id = "garden_door"
-prompt_text = "[Garten betreten]"
+[node name="Label" type="Label3D" parent="Exterior/GardenPlots/Plot1" unique_id=444333228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+text = "Gartenbeet 2"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/GardenDoor"]
+[node name="Plot2" type="StaticBody3D" parent="Exterior/GardenPlots" unique_id=444333229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.5, 0)
+script = ExtResource("2_station")
+station_id = "garden_plot_2"
+prompt_text = "[Beet 3 verwalten]"
+
+[node name="Col" type="CollisionShape3D" parent="Exterior/GardenPlots/Plot2" unique_id=444333230]
 shape = SubResource("BoxShape_station")
 
-[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/GardenDoor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.4)
-text = "[Garten betreten]"
-font_size = 32
+[node name="Label" type="Label3D" parent="Exterior/GardenPlots/Plot2" unique_id=444333231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+text = "Gartenbeet 3"
 
-[node name="FrontDoor" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5.5)
-script = ExtResource("2_interact")
-station_id = "front_door"
-prompt_text = "[Tür verwalten]"
+[node name="TowerBase" type="Node3D" parent="Exterior" unique_id=333222111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -8)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/FrontDoor"]
-shape = SubResource("BoxShape_station")
+[node name="Label3D" type="Label3D" parent="Exterior/TowerBase" unique_id=333222112]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+text = "Brieftaubenturm (Fundament)"
+font_size = 48
 
-[node name="InteractLabel" type="Label3D" parent="NavigationRegion3D/FrontDoor"]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.4, 0.4)
-text = "[Tür verwalten]"
-font_size = 32
+[node name="StaffWaypoints" type="Node3D" parent="." unique_id=713721545]
 
-[node name="StaffWaypoints" type="Node3D" parent="."]
+[node name="Waypoint3" type="Marker3D" parent="StaffWaypoints" unique_id=1371146704 groups=["staff_waypoints"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
-[node name="Waypoint1" type="Marker3D" parent="StaffWaypoints" groups=["staff_waypoints"]]
+[node name="Waypoint1" type="Marker3D" parent="StaffWaypoints" unique_id=2141357997 groups=["staff_waypoints"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 
-[node name="Waypoint2" type="Marker3D" parent="StaffWaypoints" groups=["staff_waypoints"]]
+[node name="Waypoint2" type="Marker3D" parent="StaffWaypoints" unique_id=1774624197 groups=["staff_waypoints"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
-[node name="Waypoint3" type="Marker3D" parent="StaffWaypoints" groups=["staff_waypoints"]]
+[node name="Waypoint4" type="Marker3D" parent="StaffWaypoints" unique_id=872958281 groups=["staff_waypoints"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="TierManager" type="Node" parent="." unique_id=555666777]
+script = ExtResource("14_tierman")
+tier_1_nodes = NodePath("../NavigationRegion3D/Tier1_Base")
+tier_2_nodes = NodePath("../NavigationRegion3D/Tier2_Addons")
+tier_3_nodes = NodePath("../NavigationRegion3D/Tier3_Addons")
+
+[node name="NPCNavigation" type="Node3D" parent="." unique_id=999111000]
+
+[node name="BarQueue" type="Node3D" parent="NPCNavigation" unique_id=999111001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.5)
+
+[node name="Queue_1" type="Marker3D" parent="NPCNavigation/BarQueue" unique_id=999111002 groups=["bar_queue"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0)
+
+[node name="Queue_2" type="Marker3D" parent="NPCNavigation/BarQueue" unique_id=999111003 groups=["bar_queue"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0)
+
+[node name="Queue_3" type="Marker3D" parent="NPCNavigation/BarQueue" unique_id=999111004 groups=["bar_queue"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="Queue_4" type="Marker3D" parent="NPCNavigation/BarQueue" unique_id=999111005 groups=["bar_queue"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="Queue_5" type="Marker3D" parent="NPCNavigation/BarQueue" unique_id=999111006 groups=["bar_queue"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
+
+[node name="Queue_6" type="Marker3D" parent="NPCNavigation/BarQueue" unique_id=999111007 groups=["bar_queue"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 0)
+
+[node name="TableSeats" type="Node3D" parent="NPCNavigation" unique_id=999111010]
+
+[node name="Seat_W1" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111011 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -1.2)
+
+[node name="Seat_W2" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111012 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 1.2)
+
+[node name="Seat_W3" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111013 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 0, 0)
+
+[node name="Seat_W4" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111014 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 0, 0)
+
+[node name="Seat_E1" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111015 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -1.2)
+
+[node name="Seat_E2" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111016 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 1.2)
+
+[node name="Seat_E3" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111017 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 0, 0)
+
+[node name="Seat_E4" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111018 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8, 0, 0)
+
+[node name="Seat_S1" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111019 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8)
+
+[node name="Seat_S2" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111020 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.2)
+
+[node name="Seat_S3" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111021 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, 6)
+
+[node name="Seat_S4" type="Marker3D" parent="NPCNavigation/TableSeats" unique_id=999111022 groups=["guest_seats"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 6)
+
+[node name="ExitMarker" type="Marker3D" parent="NPCNavigation" unique_id=999111099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13)

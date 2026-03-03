@@ -1,21 +1,11 @@
-extends StaticBody3D
+extends Node
 
-## Jedes Objekt, das ansprechbar sein soll, bekommt dieses Script.
-## (Veraltet: Nutze stattdessen StationInteractable für World-Stations).
-## Der Player-Raycast prüft, ob .has_method("interact") true ist.
+## InteractionManager (Veraltet, nur als Dokumentation oder Fallback-Proxy)
+## World-Interaktionen sollten direkt über das InteractionSystem des Players 
+## und das StationInteractable Script laufen.
 
-@export var label : String = "Objekt"  ## Name der im Debug-Log erscheint
-
-# Fallback für alte Stations, bis sie im Editor auf StationInteractable umgestellt sind
-func interact(player: CharacterBody3D) -> void:
-	print("[Interact System - Legacy] Spieler interagiert mit: ", name)
-	
-	if name == "StationDrinks":
-		StationRouter.activate_station("drinks_station")
-	elif name == "StationFood":
-		StationRouter.activate_station("food_station")
-	elif name == "ServiceBell":
-		StationRouter.activate_station("bell")
+func interact(target: Node3D, player: CharacterBody3D):
+	if target.has_method("interact"):
+		target.interact(player)
 	else:
-		# Standard-Verhalten für andere Objekte
-		pass
+		push_warning("[InteractionManager] Objekt %s hat keine interact() Methode." % target.name)

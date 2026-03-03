@@ -1,0 +1,15 @@
+{
+    "id": "brewing_busy",
+    "nodes": {
+        "start": {
+            "speaker": "System",
+            "text": "Dieses Fass ist momentan belegt. Geduld ist eine Tugend des Braumeisters!",
+            "choices": [
+                {
+                    "text": "Ich warte.",
+                    "next": "end"
+                }
+            ]
+        }
+    }
+}

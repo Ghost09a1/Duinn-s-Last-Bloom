@@ -1,0 +1,15 @@
+{
+    "id": "dumbwaiter_pickup",
+    "nodes": {
+        "start": {
+            "speaker": "System",
+            "text": "Du hast eine frische Lieferung entnommen!",
+            "choices": [
+                {
+                    "text": "Hervorragend.",
+                    "next": "end"
+                }
+            ]
+        }
+    }
+}

@@ -275,6 +275,11 @@ func _evaluate_service(served_id: String) -> void:
 		" (PERFECT!)" if is_perfect else "",
 		" (BIG DRINK!)" if is_big_drink else ""
 	])
+	
+	# Juice: Gold-Popup
+	if _current_guest.has_method("show_gold_popup"):
+		_current_guest.show_gold_popup(earned_money)
+		
 	_current_guest.on_served(served_id)
 	ScoreSystem.record_service(result)
 	service_completed.emit(result)

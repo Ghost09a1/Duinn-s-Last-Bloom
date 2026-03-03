@@ -12,19 +12,30 @@ var _active_guests : Dictionary = {} # Mapping von Slot (Marker3D) -> Guest (Nod
 var _active_seed: int = 0
 var _active_event: String = ""
 
+# -- Marker Management --
+var _bar_queue_spots : Array[Marker3D] = []
+var _guest_seats     : Array[Marker3D] = []
+var _occupied_spots  : Dictionary = {} # Marker3D -> Guest Node
+
 
 
 func _ready() -> void:
-	# Sammle alle SpawnPoints und steuere Personal-Modelle
+	# Sammle alle SpawnPoints
 	for child in get_parent().get_children():
 		if child is Marker3D and child.name.begins_with("SpawnPoint"):
 			_slots.append(child)
 			_active_guests[child] = null
 			
-		# Optionales Personal-Feedback
-		if child is Node3D and child.name.ends_with("_Mesh"):
-			var role = child.name.replace("_Mesh", "").to_lower()
-			child.visible = (role in GameManager.active_staff)
+	# Sammle Queue- und Sitz-Marker aus der NPCNavigation (Tags in Gruppen)
+	for spot in get_tree().get_nodes_in_group("bar_queue"):
+		if spot is Marker3D:
+			_bar_queue_spots.append(spot)
+			_occupied_spots[spot] = null
+			
+	for seat in get_tree().get_nodes_in_group("guest_seats"):
+		if seat is Marker3D:
+			_guest_seats.append(seat)
+			_occupied_spots[seat] = null
 
 	# Daten laden
 	_load_night_data()
@@ -151,7 +162,49 @@ func _spawn_guest_at(slot: Marker3D) -> void:
 	# guest.guest_done feuert self – wir binden noch den Slot ran, damit _on_guest_done weiß welcher Slot frei wird
 	guest.guest_done.connect(_on_guest_done.bind(slot))
 	_active_guests[slot] = guest
+	
+	# -- NPC FLOW START --
+	# Finde freien Bar-Spot
+	var bar_spot = request_spot("bar_queue", guest)
+	if bar_spot:
+		guest.set_target(bar_spot.global_position)
+	
 	print("[Spawner] Gast gespawnt: %s (patience: %.0fs)" % [data.get("display_name", "?"), data.get("patience", 90.0)])
+
+# -- Neue Management Funktionen --
+
+func request_spot(group: String, guest_node: Node) -> Marker3D:
+	var list : Array[Marker3D] = []
+	if group == "bar_queue": 
+		list = _bar_queue_spots
+		# -- SERVICE RUSH CHECK --
+		var occupied_count = 0
+		for spot in list:
+			if _occupied_spots[spot] != null: occupied_count += 1
+		
+		if occupied_count >= list.size():
+			print("[Spawner] SERVICE RUSH! Queue is full. Guest patience penalty applied.")
+			if guest_node.has_method("apply_rush_penalty"):
+				guest_node.apply_rush_penalty()
+	
+	elif group == "guest_seats": 
+		list = _guest_seats
+	
+	for spot in list:
+		if _occupied_spots[spot] == null:
+			_occupied_spots[spot] = guest_node
+			return spot
+	return null
+
+func release_spot(spot: Marker3D) -> void:
+	if _occupied_spots.has(spot):
+		_occupied_spots[spot] = null
+
+func get_spot_of_guest(guest_node: Node) -> Marker3D:
+	for spot in _occupied_spots:
+		if _occupied_spots[spot] == guest_node:
+			return spot
+	return null
 
 
 func _on_guest_done(_guest: Node3D, slot: Marker3D) -> void:

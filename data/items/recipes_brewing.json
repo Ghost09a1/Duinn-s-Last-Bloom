@@ -1,0 +1,33 @@
+{
+    "recipes": {
+        "mead": {
+            "label": "Goldener Met",
+            "requires": [
+                "honey",
+                "honey",
+                "water"
+            ],
+            "brewing_time": 60.0,
+            "reward_item": "mead"
+        },
+        "ale_premium": {
+            "label": "Premium Kellerbier",
+            "requires": [
+                "wheat",
+                "wheat",
+                "water"
+            ],
+            "brewing_time": 45.0,
+            "reward_item": "ale"
+        },
+        "void_essence": {
+            "label": "Leerenessenz brauen",
+            "requires": [
+                "water",
+                "void_shard"
+            ],
+            "brewing_time": 120.0,
+            "reward_item": "void_essence"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "id": "dumbwaiter_empty",
+    "nodes": {
+        "start": {
+            "speaker": "System",
+            "text": "Der Aufzug ist leer. Vielleicht ist die Bestellung noch nicht fertig?",
+            "choices": [
+                {
+                    "text": "Ich schaue später wieder.",
+                    "next": "end"
+                }
+            ]
+        }
+    }
+}

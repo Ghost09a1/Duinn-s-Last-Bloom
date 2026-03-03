@@ -1,0 +1,15 @@
+{
+    "id": "stage_busy",
+    "nodes": {
+        "start": {
+            "speaker": "System",
+            "text": "Die Performance ist noch in vollem Gange. Genieße die Show!",
+            "choices": [
+                {
+                    "text": "Klatschen (Leise)",
+                    "next": "end"
+                }
+            ]
+        }
+    }
+}

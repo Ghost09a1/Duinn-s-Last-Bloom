@@ -112,6 +112,45 @@
                 "fresh",
                 "fancy"
             ]
+        },
+        "honey": {
+            "label": "Waldhonig",
+            "tags": [
+                "ingredient",
+                "sweet"
+            ]
+        },
+        "wheat": {
+            "label": "Sommerweizen",
+            "tags": [
+                "ingredient",
+                "base"
+            ]
+        },
+        "mead": {
+            "label": "Goldener Met",
+            "tags": [
+                "drink",
+                "alcohol",
+                "sweet",
+                "valuable"
+            ]
+        },
+        "void_shard": {
+            "label": "Leeren-Splitter",
+            "tags": [
+                "currency",
+                "legendary"
+            ]
+        },
+        "void_essence": {
+            "label": "Essenz der Leere",
+            "tags": [
+                "drink",
+                "magical",
+                "cold",
+                "rare"
+            ]
         }
     }
 }
